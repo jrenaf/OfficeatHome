@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.officeathome.SignUp">
+
+
+    <TextView
+        android:id="@+id/login_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="250dp"
+        android:text="Office@Home Sign up"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/name_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="64dp"
+        android:layout_marginLeft="64dp"
+        android:layout_marginTop="32dp"
+        android:text="Username"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/login_textview" />
+
+    <EditText
+        android:id="@+id/name_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:ems="10"
+        android:hint="Set your username"
+        android:inputType="textPersonName"
+        app:layout_constraintBaseline_toBaselineOf="@+id/name_label"
+        app:layout_constraintStart_toEndOf="@+id/name_label" />
+
+    <TextView
+        android:id="@+id/password_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="64dp"
+        android:layout_marginLeft="64dp"
+        android:layout_marginTop="24dp"
+        android:text="Password"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/name_label" />
+
+    <EditText
+        android:id="@+id/password_text"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:ems="10"
+        android:hint="Set your password"
+        android:inputType="textMultiLine|textPassword"
+        android:textStyle="normal"
+        app:layout_constraintBaseline_toBaselineOf="@+id/password_label"
+        app:layout_constraintStart_toEndOf="@+id/password_label" />
+
+    <Button
+        android:id="@+id/Sign_up_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="76dp"
+        android:layout_marginLeft="76dp"
+        android:text="Go to sign in"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="528dp"
+        android:onClick="launchSignUp"/>
+
+    <Button
+        android:id="@+id/Sign_in_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:text="Sign up"
+        app:layout_constraintBottom_toBottomOf="@+id/Sign_up_button"
+        app:layout_constraintStart_toEndOf="@+id/Sign_up_button"
+        android:onClick="launchGoToSignIn"/>
+
+
+    <TextView
+        android:id="@+id/department_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="64dp"
+        android:layout_marginLeft="64dp"
+        android:layout_marginTop="24dp"
+        android:text="Department"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/password_label" />
+
+    <RadioGroup
+        android:id="@+id/department_group_one"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:orientation="horizontal"
+        app:layout_constraintBaseline_toBaselineOf="@+id/department_label"
+        android:baselineAlignedChildIndex="0"
+        android:baselineAligned="true"
+        app:layout_constraintLeft_toRightOf="@+id/department_label">
+
+        <RadioButton
+            android:id="@+id/RD"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onRadioButtonClicked"
+            android:text="@string/r_d" />
+
+        <RadioButton
+            android:id="@+id/Purchasing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:onClick="onRadioButtonClicked"
+            android:text="Purchasing" />
+
+        <RadioButton
+            android:id="@+id/HR"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onRadioButtonClicked"
+            android:text="HR" />
+
+    </RadioGroup>
+
+    <RadioGroup
+        android:id="@+id/department_group_two"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/department_label"
+        app:layout_constraintLeft_toRightOf="@+id/department_label">
+
+
+        <RadioButton
+            android:id="@+id/Executives"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:onClick="onRadioButtonClicked"
+            android:text="Executives" />
+
+        <RadioButton
+            android:id="@+id/Marketing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onRadioButtonClicked"
+            android:text="Marketing" />
+
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/level_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="64dp"
+        android:layout_marginLeft="64dp"
+        android:layout_marginTop="48dp"
+        android:text="Level"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/department_label" />
+
+    <Spinner
+        android:id="@+id/level_spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_marginStart="48dp"
+        android:layout_marginLeft="48dp"
+        android:layout_marginTop="48dp"
+        app:layout_constraintStart_toEndOf="@+id/level_label"
+        app:layout_constraintTop_toBottomOf="@+id/department_label" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
