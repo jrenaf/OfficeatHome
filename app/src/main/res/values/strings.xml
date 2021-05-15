@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">OfficeatHome</string>
+    <string name="r_d"><![CDATA[R&D]]></string>
+
+    <string-array name="spinner_values">
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+    </string-array>
+
+    <string name="tab_label1">Executives</string>
+    <string name="tab_label2"><![CDATA[R&D]]></string>
+    <string name="tab_label3">HR</string>
+    <string name="tab_label4">Marketing</string>
+    <string name="tab_label5">Purchasing</string>
+</resources>
