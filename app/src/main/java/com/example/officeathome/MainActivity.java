@@ -7,7 +7,7 @@ import android.os.Handler;
 import android.view.View;
 
 public class MainActivity extends Activity {
-    private static int TIME_OUT = 2000; //Time to launch the another activity
+    private static int TIME_OUT = 2500; //Time to launch the another activity
 
     // An activity last for only 2 seconds and then go to the Sign in Activity
     @Override
