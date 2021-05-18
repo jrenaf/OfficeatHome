@@ -110,7 +110,7 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
                 }
             }
         } else if (view == findViewById(R.id.back_add)) {
-            Intent intent = new Intent(AddActivity.this, MainActivity.class);
+            Intent intent = new Intent(AddActivity.this, ProfileActivity.class);
             startActivity(intent);
         }
 
@@ -193,7 +193,7 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
 
         // Set up the pending intent that is delivered when the notification
         // is clicked.
-        Intent notificationIntent = new Intent(this, MainActivity.class);
+        Intent notificationIntent = new Intent(this, ProfileActivity.class);
         PendingIntent notificationPendingIntent = PendingIntent.getActivity
                 (this, NOTIFICATION_ID, notificationIntent,
                         PendingIntent.FLAG_UPDATE_CURRENT);
