@@ -1,17 +1,22 @@
 package com.example.officeathome;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.widget.Adapter;
-
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.SearchView;
+import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.viewpager.widget.PagerAdapter;
-import androidx.viewpager.widget.ViewPager;
+import androidx.preference.PreferenceFragmentCompat;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
+import androidx.preference.PreferenceManager;
 
 import com.google.android.material.tabs.TabLayout;
 
-public class MainSearch extends AppCompatActivity {
+public class MainSearch extends AppCompatActivity{
 
     /**
      * Creates the content view and toolbar, sets up the tab layout, and sets up
@@ -26,8 +31,10 @@ public class MainSearch extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.search);
 
-        androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.searchbar);
+        androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        SearchView searchView = (SearchView) findViewById(R.id.searchView);
+
 
         // Create an instance of the tab layout from the view.
         TabLayout tabLayout = findViewById(R.id.tab_layout);
@@ -70,7 +77,71 @@ public class MainSearch extends AppCompatActivity {
                     public void onTabReselected(TabLayout.Tab tab) {
                     }
                 });
+
+        //Set a listener on search view
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                    Toast.makeText(MainSearch.this, "No Match found", Toast.LENGTH_LONG).show();
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                //    adapter.getFilter().filter(newText);
+                return false;
+            }
+        });
+
+        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
+//
+//        // Read the settings from the shared preferences, put them into the
+//        // SettingsActivity, and display a toast.
+//        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+//        Boolean switchPref = sharedPref.getBoolean
+//                (SettingActivity.KEY_PREF_EXAMPLE_SWITCH, false);
+//        Toast.makeText(this, switchPref.toString(),
+//                Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar
+        // if it is present.
+        getMenuInflater().inflate(R.menu.settings_menu, menu);
+        return true;
+    }
+
+    /**
+     * Handles option menu selections and automatically handles clicks
+     * on the Up button in the app bar.
+     *
+     * @param item Item in options menu
+     * @return True if Settings is selected in the options menu.
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        // If option menu item is Settings, return true.
+        if (id == R.id.action_settings) {
+            Intent intent = new Intent(this,
+                    SettingActivity.class);
+            startActivity(intent);
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    public void luanchMeProfile(View view) {
+        Intent intent = new Intent(this, ProfileActivity.class);
+        startActivity(intent);
     }
 }
+
 
 

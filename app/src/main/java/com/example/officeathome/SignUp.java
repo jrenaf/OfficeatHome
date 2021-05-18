@@ -14,14 +14,16 @@ import androidx.appcompat.app.AppCompatActivity;
 public class SignUp extends AppCompatActivity
         implements AdapterView.OnItemSelectedListener{
 
-    RadioGroup departmentRowOne = findViewById(R.id.department_group_one);
-    RadioGroup departmentRowTwo = findViewById(R.id.department_group_two);
+    RadioGroup departmentRowOne;
+    RadioGroup departmentRowTwo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sign_up);
 
+        departmentRowOne = findViewById(R.id.department_group_one);
+        departmentRowTwo = findViewById(R.id.department_group_two);
         // Get the intent and its data.
 //        Intent intent = getIntent();
 //        String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
@@ -52,6 +54,8 @@ public class SignUp extends AppCompatActivity
 
         departmentRowOne.setOnCheckedChangeListener(new SignUp.departmentRowOneListener());
         departmentRowTwo.setOnCheckedChangeListener(new SignUp.departmentRowTwoListener());
+        departmentRowOne.clearCheck();
+        departmentRowTwo.clearCheck();
     }
 
 
@@ -80,14 +84,17 @@ public class SignUp extends AppCompatActivity
         @Override
         public void onCheckedChanged(RadioGroup radioGroup, int position) {
             switch (position) {
+                case R.id.Executives:
+                    departmentRowTwo.clearCheck();
+                    departmentRowOne.check(R.id.Executives);
+                    break;
                 case R.id.RD:
                     departmentRowTwo.clearCheck();
-                    break;
-                case R.id.Purchasing:
-                    departmentRowTwo.clearCheck();
+                    departmentRowOne.check(R.id.RD);
                     break;
                 case R.id.HR:
                     departmentRowTwo.clearCheck();
+                    departmentRowOne.check(R.id.HR);
                     break;
             }
         }
@@ -100,9 +107,11 @@ public class SignUp extends AppCompatActivity
             switch (position) {
                 case R.id.Marketing:
                     departmentRowOne.clearCheck();
+                    departmentRowTwo.check(R.id.Marketing);
                     break;
-                case R.id.Executives:
+                case R.id.Purchasing:
                     departmentRowOne.clearCheck();
+                    departmentRowTwo.check(R.id.Purchasing);
                     break;
             }
         }
@@ -114,7 +123,7 @@ public class SignUp extends AppCompatActivity
      * @param message Message to display.
      */
     public void displayToast(String message) {
-        Toast.makeText(getApplicationContext(), message,
+        Toast.makeText(this, message,
                 Toast.LENGTH_SHORT).show();
     }
 

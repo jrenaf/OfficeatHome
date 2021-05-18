@@ -20,4 +20,20 @@
     <string name="tab_label3">HR</string>
     <string name="tab_label4">Marketing</string>
     <string name="tab_label5">Purchasing</string>
+
+    <string name="switch_title">Settings option</string>
+    <string name="switch_summary">Turn this option on or off</string>
+    <string name="password">Password</string>
+
+    <string name="comment_content">comment content</string>
+    <string name="hide_down">hide</string>
+    <string name="notification_title">You\'ve been notified!</string>
+    <string name="notification_text">This is your notification text.</string>
+    <string name="update">Update Notification</string>
+    <string name="notify_me">Notify Me!</string>
+    <string name="update_me">Update Me!</string>
+    <string name="cancel_me">Cancel Me!</string>
+    <string name="notification_updated">Notification Updated!</string>
+    <string name="notification_channel_name">Mascot Notification</string>
+    <string name="notification_channel_description">Notification from Mascot</string>
 </resources>
