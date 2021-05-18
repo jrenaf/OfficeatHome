@@ -20,4 +20,8 @@
     <string name="tab_label3">HR</string>
     <string name="tab_label4">Marketing</string>
     <string name="tab_label5">Purchasing</string>
+
+    <string name="switch_title">Settings option</string>
+    <string name="switch_summary">Turn this option on or off</string>
+    <string name="password">Password</string>
 </resources>

@@ -31,6 +31,13 @@
             android:name=".MainSearch"
             android:theme="@style/AppTheme">
         </activity>
+        <activity android:name=".SettingActivity"
+            android:label="Settings"
+            android:parentActivityName=".MainSearch">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainSearch"/>
+        </activity>
     </application>
 
 </manifest>
