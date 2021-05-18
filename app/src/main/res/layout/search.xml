@@ -66,5 +66,6 @@
         android:layout_marginRight="16dp"
         android:layout_marginBottom="16dp"
         android:src="@drawable/ic_fab_me_icon"
-        app:backgroundTint="#00BCD4" />
+        app:backgroundTint="#00BCD4"
+        android:onClick="luanchMeProfile"/>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
