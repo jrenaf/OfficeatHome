@@ -27,7 +27,6 @@ public class SignIn extends AppCompatActivity {
 
     private EditText mEmail;
     private EditText mPassword;
-
     FirebaseAuth mAuth;
 
     @Override
@@ -37,9 +36,7 @@ public class SignIn extends AppCompatActivity {
 
         mEmail = findViewById(R.id.name_text);
         mPassword = findViewById(R.id.password_text);
-
         mAuth = FirebaseAuth.getInstance();
-
     }
 
     public void launchGoToSignUp(View view) {
@@ -58,8 +55,6 @@ public class SignIn extends AppCompatActivity {
     7. restart the activity
      */
     public void launchSignIn(View view) {
-        //Intent intent = new Intent(this, MainSearch.class);
-        //String message = "testingID";
 
         String email = mEmail.getText().toString();
         String password = mPassword.getText().toString();
@@ -90,11 +85,7 @@ public class SignIn extends AppCompatActivity {
                         // ...
                     }
                 });
-
-//        intent.putExtra("ID", message);
-//        startActivity(intent);
     }
-
 
     public void displayToast(String message) {
         Toast.makeText(getApplicationContext(), message,

@@ -54,11 +54,7 @@ public class SignUp extends AppCompatActivity
 
         departmentRowOne = findViewById(R.id.department_group_one);
         departmentRowTwo = findViewById(R.id.department_group_two);
-        // Get the intent and its data.
-//        Intent intent = getIntent();
-//        String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
-//        TextView textView = findViewById(R.id.order_textview);
-//        textView.setText(message);
+
 
         // Create the spinner.
         Spinner spinner = findViewById(R.id.level_spinner);
@@ -108,20 +104,35 @@ public class SignUp extends AppCompatActivity
         String email = mEmail.getText().toString();
         String password = mPassword.getText().toString();
 
-        if(validationForm()==false) {
+        //Check the input validation
+        if (validationForm() != 0) {
             AlertDialog alertDialog = new AlertDialog.Builder(SignUp.this).create();
             alertDialog.setTitle("Alert");
-            alertDialog.setMessage("Alert message to be shown");
             alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
                         }
                     });
+            switch (validationForm()) {
+                case 1:
+                    alertDialog.setMessage("Please ensure your email address is right.");
+                    break;
+                case 2:
+                    alertDialog.setMessage("Please ensure your password is longer than 8 characters.");
+                    break;
+                case 3:
+                    alertDialog.setMessage("Please ensure your department is tabbed");
+                    break;
+                case 4:
+                    alertDialog.setMessage("Please ensure your level is set.");
+                    break;
+            }
             alertDialog.show();
             return;
         }
 
+        //Create account
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -130,36 +141,26 @@ public class SignUp extends AppCompatActivity
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "createUserWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            if(user != null){
+                            if (user != null) {
                                 sendVerificationEmail();
                             }
-                            //updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
                             Toast.makeText(SignUp.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
-                            //updateUI(null);
                         }
                     }
                 });
-//        String username = "Hello Desmond";
-//        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-//        writeNewUser(user.getUid(),email,username,password,level,false,radioID);
-
-
-//            Intent intent = new Intent(this, MainSearch.class);
-//            intent.putExtra("ID", email);
-//            startActivity(intent);
     }
 
     private void writeNewUser(String uid, String email, String username, String password, String level,
-                                     boolean availability,  String dep) {
+                              boolean availability,  String dep) {
         People user = new People(email, username, password, level, availability, dep);
-
         myRef.child(uid).setValue(user);
     }
-    private boolean validationForm(){
+
+    private int validationForm(){
         String email = mEmail.getText().toString();
         String password = mPassword.getText().toString();
 
@@ -167,10 +168,12 @@ public class SignUp extends AppCompatActivity
                 compile("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$");
         Matcher mail = pattern.matcher(email);
 
-        if(level==null || radioID==null || mail.find()==false || password.length()<8 )
-            return false;
-        else
-            return true;
+
+        if(mail.find()==false) return 1;
+        else if(password.length()<8) return 2;
+        else if(radioID==null) return 3;
+        else if(level==null) return 4;
+        else return 0;
     }
 
 
@@ -188,13 +191,13 @@ public class SignUp extends AppCompatActivity
                         if (task.isSuccessful()) {
                             // email sent
                             //checkIfEmailVerified();
-                            String username = "Hello Desmond";
+                            String username = "Wait to be changed";
                             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                             writeNewUser(user.getUid(),email,username,password,level,false,radioID);
 
                             // after email is sent just logout the user and finish this activity
                             FirebaseAuth.getInstance().signOut();
-                            startActivity(new Intent(SignUp.this, MainSearch.class));
+                            startActivity(new Intent(SignUp.this, SignIn.class));
                             finish();
                         }
                         else
@@ -206,37 +209,9 @@ public class SignUp extends AppCompatActivity
                             finish();
                             overridePendingTransition(0, 0);
                             startActivity(getIntent());
-
                         }
                     }
                 });
-    }
-
-    private void checkIfEmailVerified()
-    {
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
-        if (user.isEmailVerified())
-        {
-            // user is verified, so you can finish this activity or send user to activity which you want.
-            //finish();
-            Intent intent = new Intent(this, SignIn.class);
-            startActivity(intent);
-            Toast.makeText(SignUp.this, "Successfully logged in", Toast.LENGTH_SHORT).show();
-        }
-        else
-        {
-            // email is not verified, so just prompt the message to the user and restart this activity.
-            // NOTE: don't forget to log out the user.
-            FirebaseAuth.getInstance().signOut();
-
-            //restart this activity
-            overridePendingTransition(0, 0);
-            finish();
-            overridePendingTransition(0, 0);
-            startActivity(getIntent());
-
-        }
     }
 
     public void launchGoToSignIn(View view) {

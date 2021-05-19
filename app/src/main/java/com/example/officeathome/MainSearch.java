@@ -6,7 +6,9 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.SearchView;
+import android.widget.TableRow;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceFragmentCompat;
@@ -15,6 +17,14 @@ import androidx.viewpager2.widget.ViewPager2;
 import androidx.preference.PreferenceManager;
 
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 public class MainSearch extends AppCompatActivity{
 
@@ -25,11 +35,17 @@ public class MainSearch extends AppCompatActivity{
      *
      * @param savedInstanceState Saved instance state bundle.
      */
-
+    String email;
+    private FirebaseDatabase database = FirebaseDatabase.
+            getInstance("https://officeathome-77d7b-default-rtdb.firebaseio.com/");
+    private DatabaseReference myRef = database.getReference("user");
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.search);
+
+        Bundle bundle = getIntent().getExtras();
+        email = bundle.getString("ID");
 
         androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -82,26 +98,26 @@ public class MainSearch extends AppCompatActivity{
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                    Toast.makeText(MainSearch.this, "No Match found", Toast.LENGTH_LONG).show();
+                ArrayList<People> mData = searchBy(query);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                //    adapter.getFilter().filter(newText);
+                ArrayList<People> mData = searchBy(newText);
                 return false;
             }
         });
 
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 //
-//        // Read the settings from the shared preferences, put them into the
-//        // SettingsActivity, and display a toast.
-//        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-//        Boolean switchPref = sharedPref.getBoolean
-//                (SettingActivity.KEY_PREF_EXAMPLE_SWITCH, false);
-//        Toast.makeText(this, switchPref.toString(),
-//                Toast.LENGTH_SHORT).show();
+        // Read the settings from the shared preferences, put them into the
+        // SettingsActivity, and display a toast.
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        Boolean switchPref = sharedPref.getBoolean
+                (SettingActivity.KEY_PREF_EXAMPLE_SWITCH, false);
+        Toast.makeText(this, switchPref.toString(),
+                Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -138,8 +154,57 @@ public class MainSearch extends AppCompatActivity{
     }
 
     public void luanchMeProfile(View view) {
-        Intent intent = new Intent(this, ProfileActivity.class);
+        Intent intent = new Intent(MainSearch.this, ProfileActivity.class);
+        intent.putExtra("ID", email);
         startActivity(intent);
+    }
+
+    public ArrayList<People> searchBy(String keyword) {
+        ArrayList<People> mData = new ArrayList<People>();
+        Query query = myRef.orderByChild("username").equalTo(keyword);
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                mData.clear();
+                for (DataSnapshot data : dataSnapshot.getChildren()) {
+                    // Data parsing is being done within the extending classes.
+                    mData.add(dataSnapshot.getValue(People.class));
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+        return mData;
+    }
+
+    public void explodeViewPage(ArrayList<People> queue){
+        FrameLayout frameLayout = (FrameLayout)findViewById(R.id.frame_layout);
+        frameLayout.setFocusable(true);
+
+        View v = new View(getBaseContext());
+        frameLayout.addView(v);
+//        TableRow row=(TableRow)findViewById(R.id.display_row);
+//        for (int i = 0; i <2; i++) {
+//
+//            checkBox = new CheckBox(this);
+//            tv = new TextView(this);
+//            addBtn = new ImageButton(this);
+//            addBtn.setImageResource(R.drawable.add);
+//            minusBtn = new ImageButton(this);
+//            minusBtn.setImageResource(R.drawable.minus);
+//            qty = new TextView(this);
+//            checkBox.setText("hello");
+//            qty.setText("10");
+//            row.addView(checkBox);
+//            row.addView(minusBtn);
+//            row.addView(qty);
+//            row.addView(addBtn);
+//            ll.addView(row,i);
+//
+//        }
+
     }
 }
 
