@@ -2,24 +2,44 @@ package com.example.officeathome;
 
 
 import android.content.Intent;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 public class SignIn extends AppCompatActivity {
+
+    private EditText mEmail;
+    private EditText mPassword;
+
+    FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.log_in);
+
+        mEmail = findViewById(R.id.name_text);
+        mPassword = findViewById(R.id.password_text);
+
+        mAuth = FirebaseAuth.getInstance();
+
     }
 
     public void launchGoToSignUp(View view) {
@@ -38,11 +58,43 @@ public class SignIn extends AppCompatActivity {
     7. restart the activity
      */
     public void launchSignIn(View view) {
-        Intent intent = new Intent(this, MainSearch.class);
-        String message = "testingID";
-        intent.putExtra("ID", message);
-        startActivity(intent);
+        //Intent intent = new Intent(this, MainSearch.class);
+        //String message = "testingID";
+
+        String email = mEmail.getText().toString();
+        String password = mPassword.getText().toString();
+
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        //Log.d("TAG", "signInWithEmail:onComplete:" + task.isSuccessful());
+
+                        // If sign in fails, display a message to the user. If sign in succeeds
+                        // the auth state listener will be notified and logic to handle the
+                        // signed in user can be handled in the listener.
+                        if (!task.isSuccessful()) {
+                            //Log.w("TAG", "signInWithEmail:failed", task.getException());
+                            overridePendingTransition(0, 0);
+                            finish();
+                            overridePendingTransition(0, 0);
+                            startActivity(getIntent());
+
+                        } else {
+                            //checkIfEmailVerified();
+                            Intent intent = new Intent(SignIn.this, MainSearch.class);
+                            intent.putExtra("ID", email);
+                            startActivity(intent);
+                            Toast.makeText(SignIn.this, "Successfully logged in", Toast.LENGTH_SHORT).show();
+                        }
+                        // ...
+                    }
+                });
+
+//        intent.putExtra("ID", message);
+//        startActivity(intent);
     }
+
 
     public void displayToast(String message) {
         Toast.makeText(getApplicationContext(), message,

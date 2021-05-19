@@ -42,10 +42,16 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainSearch"/>
         </activity>
-        <activity android:name=".AddActivity"></activity>
-        <activity android:name=".DetailActivity"></activity>
-        <activity android:name=".MessageBoard" />
-        <activity android:name=".ProfileActivity">
+        <activity android:name=".AddActivity"/>
+        <activity android:name=".DetailActivity"/>
+        <activity android:name=".MessageBoard"
+            android:label="Message Board"
+            android:parentActivityName=".ProfileActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.officeathome.ProfileActivity"/>
+        </activity>
+        <activity android:name=".ProfileActivity"
             android:parentActivityName=".MainSearch">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
