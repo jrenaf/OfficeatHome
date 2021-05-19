@@ -6,196 +6,180 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.example.officeathome.ExecutivesFragment">
 
-    <TableLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:stretchColumns="0,1">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-        <TableRow
-            android:layout_width="fill_parent"
+        <TableLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp">
+            android:stretchColumns="0,1">
 
-            <ImageView
-                app:srcCompat="@drawable/person_avatar"
-                android:layout_width="wrap_content"
+            <TableRow
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_column="0">
+                android:layout_marginTop="16dp">
 
-            </ImageView>
-            <ImageView
-                app:srcCompat="@drawable/person_avatar"
-                android:layout_width="wrap_content"
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="0"
+                    app:srcCompat="@drawable/person_avatar">
+
+                </ImageView>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="1"
+                    app:srcCompat="@drawable/person_avatar"></ImageView>
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_column="0"
+                    android:gravity="center_horizontal"
+                    android:text="Jimmy"
+                    android:textSize="18sp"></TextView>
+
+                <TextView
+                    android:layout_column="1"
+                    android:gravity="center_horizontal"
+                    android:text="Henry"
+                    android:textSize="18sp"></TextView>
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_column="0"
+                    android:gravity="center_horizontal"
+                    android:text="Executive, 13"
+                    android:textSize="12sp"></TextView>
+
+                <TextView
+                    android:layout_column="1"
+                    android:gravity="center_horizontal"
+                    android:text="HR, 11"
+                    android:textSize="12sp"></TextView>
+            </TableRow>
+
+
+            <TableRow
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_column="1">
-            </ImageView>
-        </TableRow>
+                android:layout_marginTop="16dp">
 
-        <TableRow
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            >
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="0"
+                    app:srcCompat="@drawable/person_avatar">
 
-            <TextView
-                android:layout_column="0"
-                android:gravity="center_horizontal"
-                android:text="Jimmy"
-                android:textSize="18sp">
-            </TextView>
+                </ImageView>
 
-            <TextView
-                android:text = "Henry"
-                android:gravity="center_horizontal"
-                android:layout_column="1"
-                android:textSize="18sp">
-            </TextView>
-        </TableRow>
+                <ImageView
 
-        <TableRow
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            >
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="1"
+                    app:srcCompat="@drawable/person_avatar"></ImageView>
+            </TableRow>
 
-            <TextView
-                android:layout_column="0"
-                android:gravity="center_horizontal"
-                android:text="Executive, 13"
-                android:textSize="12sp">
-            </TextView>
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
 
-            <TextView
-                android:gravity="center_horizontal"
-                android:layout_column="1"
-                android:text="HR, 11"
-                android:textSize="12sp">
-            </TextView>
-        </TableRow>
+                <TextView
+                    android:layout_column="0"
+                    android:gravity="center_horizontal"
+                    android:text="Jimmy"
+                    android:textSize="18sp"></TextView>
+
+                <TextView
+                    android:layout_column="1"
+                    android:gravity="center_horizontal"
+                    android:text="Henry"
+                    android:textSize="18sp"></TextView>
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_column="0"
+                    android:gravity="center_horizontal"
+                    android:text="Executive, 13"
+                    android:textSize="12sp"></TextView>
+
+                <TextView
+                    android:layout_column="1"
+                    android:gravity="center_horizontal"
+                    android:text="HR, 11"
+                    android:textSize="12sp"></TextView>
+            </TableRow>
 
 
-
-
-        <TableRow
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp">
-
-            <ImageView
-                app:srcCompat="@drawable/person_avatar"
-                android:layout_width="wrap_content"
+            <TableRow
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_column="0">
+                android:layout_marginTop="16dp">
 
-            </ImageView>
-            <ImageView
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="0"
+                    app:srcCompat="@drawable/person_avatar">
 
-                app:srcCompat="@drawable/person_avatar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_column="1">
-            </ImageView
-               >
-        </TableRow>
+                </ImageView>
 
-        <TableRow
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            >
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="1"
+                    app:srcCompat="@drawable/person_avatar"></ImageView>
+            </TableRow>
 
-            <TextView
-                android:layout_column="0"
-                android:gravity="center_horizontal"
-                android:text="Jimmy"
-                android:textSize="18sp">
-            </TextView>
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
 
-            <TextView
-                android:text = "Henry"
-                android:gravity="center_horizontal"
-                android:layout_column="1"
-                android:textSize="18sp">
-            </TextView>
-        </TableRow>
+                <TextView
+                    android:layout_column="0"
+                    android:gravity="center_horizontal"
+                    android:text="Jimmy"
+                    android:textSize="18sp"></TextView>
 
-        <TableRow
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            >
+                <TextView
+                    android:layout_column="1"
+                    android:gravity="center_horizontal"
+                    android:text="Henry"
+                    android:textSize="18sp"></TextView>
+            </TableRow>
 
-            <TextView
-                android:layout_column="0"
-                android:gravity="center_horizontal"
-                android:text="Executive, 13"
-                android:textSize="12sp">
-            </TextView>
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
 
-            <TextView
-                android:gravity="center_horizontal"
-                android:layout_column="1"
-                android:text="HR, 11"
-                android:textSize="12sp">
-            </TextView>
-        </TableRow>
+                <TextView
+                    android:layout_column="0"
+                    android:gravity="center_horizontal"
+                    android:text="Executive, 13"
+                    android:textSize="12sp"></TextView>
 
+                <TextView
+                    android:layout_column="1"
+                    android:gravity="center_horizontal"
+                    android:text="HR, 11"
+                    android:textSize="12sp"></TextView>
+            </TableRow>
+        </TableLayout>
+    </ScrollView>
 
-
-        <TableRow
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp">
-
-            <ImageView
-                app:srcCompat="@drawable/person_avatar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_column="0">
-
-            </ImageView>
-            <ImageView
-                app:srcCompat="@drawable/person_avatar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_column="1">
-            </ImageView>
-        </TableRow>
-
-        <TableRow
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            >
-
-            <TextView
-                android:layout_column="0"
-                android:gravity="center_horizontal"
-                android:text="Jimmy"
-                android:textSize="18sp">
-            </TextView>
-
-            <TextView
-                android:text = "Henry"
-                android:gravity="center_horizontal"
-                android:layout_column="1"
-                android:textSize="18sp">
-            </TextView>
-        </TableRow>
-
-        <TableRow
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            >
-
-            <TextView
-                android:layout_column="0"
-                android:gravity="center_horizontal"
-                android:text="Executive, 13"
-                android:textSize="12sp">
-            </TextView>
-
-            <TextView
-                android:gravity="center_horizontal"
-                android:layout_column="1"
-                android:text="HR, 11"
-                android:textSize="12sp">
-            </TextView>
-        </TableRow>
-    </TableLayout>
 </RelativeLayout>
