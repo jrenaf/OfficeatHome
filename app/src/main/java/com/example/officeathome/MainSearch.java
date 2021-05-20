@@ -7,8 +7,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.SearchView;
+import android.widget.TableLayout;
 import android.widget.TableRow;
+import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceFragmentCompat;
@@ -98,7 +101,7 @@ public class MainSearch extends AppCompatActivity{
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                ArrayList<People> mData = searchBy(query);
+                goToAfterSearchPage(query);
                 return false;
             }
 
@@ -179,31 +182,46 @@ public class MainSearch extends AppCompatActivity{
         return mData;
     }
 
-    public void explodeViewPage(ArrayList<People> queue){
-        FrameLayout frameLayout = (FrameLayout)findViewById(R.id.frame_layout);
-        frameLayout.setFocusable(true);
+    public void goToAfterSearchPage(String query){
+        Intent intent = new Intent(this, AfterSearch.class);
+        intent.putExtra("q", query);
+        intent.putExtra("id", email);
+        startActivity(intent);
+        finish();
+        overridePendingTransition(R.anim.down_in, R.anim.down_out);
 
-        View v = new View(getBaseContext());
-        frameLayout.addView(v);
-//        TableRow row=(TableRow)findViewById(R.id.display_row);
+//        FrameLayout frameLayout = findViewById(R.id.frame_layout);
+//        frameLayout.bringChildToFront(findViewById(R.id.table_layout));
+//        TableLayout tl = findViewById(R.id.table_layout);
+//        //LinearLayout linearLayout = findViewById(R.id.linear_layout);
+//        //linearLayout.getBackground().setAlpha(100);
+//
 //        for (int i = 0; i <2; i++) {
-//
-//            checkBox = new CheckBox(this);
-//            tv = new TextView(this);
-//            addBtn = new ImageButton(this);
-//            addBtn.setImageResource(R.drawable.add);
-//            minusBtn = new ImageButton(this);
-//            minusBtn.setImageResource(R.drawable.minus);
-//            qty = new TextView(this);
-//            checkBox.setText("hello");
-//            qty.setText("10");
-//            row.addView(checkBox);
-//            row.addView(minusBtn);
-//            row.addView(qty);
-//            row.addView(addBtn);
-//            ll.addView(row,i);
-//
-//        }
+//            TableRow tr = new TableRow(this);
+//            tr.setId(i + 1);
+//            TextView tv=new TextView(this);
+//            tv.setText("test");
+//            tr.addView(tv);
+//            TextView tv2=new TextView(this);
+//            tv2.setText("test");
+//            tr.addView(tv2);
+//            tl.addView(tr);
+////            checkBox = new CheckBox(this);
+////            tv = new TextView(this);
+////            addBtn = new ImageButton(this);
+////            addBtn.setImageResource(R.drawable.add);
+////            minusBtn = new ImageButton(this);
+////            minusBtn.setImageResource(R.drawable.minus);
+////            qty = new TextView(this);
+////            checkBox.setText("hello");
+////            qty.setText("10");
+////            row.addView(checkBox);
+////            row.addView(minusBtn);
+////            row.addView(qty);
+////            row.addView(addBtn);
+////            ll.addView(row,i);
+////
+        //}
 
     }
 }
