@@ -8,6 +8,11 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
+
+import android.os.Handler;
+
+import android.provider.MediaStore;
+
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -28,6 +33,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+
+
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 
@@ -41,6 +53,11 @@ public class AfterSearch extends AppCompatActivity implements View.OnClickListen
     private FirebaseDatabase database = FirebaseDatabase.
             getInstance("https://officeathome-77d7b-default-rtdb.firebaseio.com/");
     private DatabaseReference myRef = database.getReference("user");
+
+
+    // Use a service account
+    // Access a Cloud Firestore instance from your Activity
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

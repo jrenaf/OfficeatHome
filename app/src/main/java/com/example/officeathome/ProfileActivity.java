@@ -1,5 +1,31 @@
 package com.example.officeathome;
 
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.Bundle;
+import androidx.appcompat.app.AlertDialog;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.ListAdapter;
+import android.widget.ListView;
+import android.widget.SimpleAdapter;
+import android.widget.Switch;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -59,6 +85,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ProfileActivity extends AppCompatActivity implements OnClickListener{
+
     ListView listView;
     Button add;//添加按钮
     TextView note_id;//向其他界面传值
@@ -100,6 +127,7 @@ public class ProfileActivity extends AppCompatActivity implements OnClickListene
     private DatabaseReference myRef = database.getReference("user");
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
+
     private FirebaseStorage storage = FirebaseStorage.getInstance();
     private StorageReference headRef = storage.getReference("heads");
 
@@ -110,6 +138,9 @@ public class ProfileActivity extends AppCompatActivity implements OnClickListene
         //get the user's email
         Bundle bundle = getIntent().getExtras();
         email = bundle.getString("ID");
+
+        Log.d("TAG", "*****Email address:" + email);
+
         userName = (TextView) findViewById(R.id.personalPageName);
         availability = (TextView) findViewById(R.id.personalPageAvb);
         department = (TextView) findViewById(R.id.personalPageDepartment);
@@ -127,6 +158,36 @@ public class ProfileActivity extends AppCompatActivity implements OnClickListene
                 }
             }
         });
+
+        Query query = myRef.orderByChild("email").equalTo(email);
+        query.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                // Data parsing is being done within the extending classes.
+                People people = dataSnapshot.getValue(People.class);
+                userName.setText(people.username);
+                if(people.availability){
+                    availability.setText("Available!");
+                    availSwitch.setChecked(true);
+                }
+                else{availability.setText("Not available!"); availSwitch.setChecked(false);}
+                department.setText(people.myDep);
+                level.setText(people.level);
+            }
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String prevChildKey) {}
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {}
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String prevChildKey) {}
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+
         initView();
         Query query = myRef.orderByChild("email").equalTo(email);
         query.addChildEventListener(new ChildEventListener() {
@@ -604,5 +665,15 @@ public class ProfileActivity extends AppCompatActivity implements OnClickListene
                 e.printStackTrace();
             }
         }
+    }
+    @Override
+    public void onBackPressed(){
+        Intent intent = new Intent(ProfileActivity.this, MainSearch.class);
+        Log.d("TAG", "*****Email address:" + email);
+        Bundle bd = new Bundle();
+        bd.putString("ID",email);
+        intent.putExtras(bd);
+        startActivity(intent);
+        finish();
     }
 }

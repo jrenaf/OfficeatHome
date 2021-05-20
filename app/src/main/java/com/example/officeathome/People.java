@@ -2,6 +2,19 @@ package com.example.officeathome;
 
 import com.google.firebase.database.IgnoreExtraProperties;
 
+import android.app.Activity;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.provider.ContactsContract;
+
+import androidx.core.content.res.ResourcesCompat;
+
+import java.nio.ByteBuffer;
+import java.util.Base64;
+
 @IgnoreExtraProperties
 public class People  {
 
