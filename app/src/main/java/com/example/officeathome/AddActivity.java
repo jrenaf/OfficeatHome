@@ -1,5 +1,14 @@
 package com.example.officeathome;
 
+import android.content.Intent;
+import android.os.Bundle;
+import androidx.appcompat.app.AppCompatActivity;
+import android.text.TextUtils;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -11,14 +20,9 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.text.TextUtils;
+import androidx.core.app.NotificationCompat;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Toast;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationCompat;
 
 public class AddActivity extends AppCompatActivity implements View.OnClickListener {
     private Button back;  //返回按钮
@@ -43,7 +47,7 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
 
     private NotificationManager mNotifyManager;
 
-    private NotificationReceiver mReceiver = new NotificationReceiver();
+    private AddActivity.NotificationReceiver mReceiver = new AddActivity.NotificationReceiver();
 //    private int note_id=0;
 
     @Override
