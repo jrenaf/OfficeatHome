@@ -40,6 +40,13 @@ public class ExecutivesFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+        arr_people = new ArrayList<>();
+        int count = t1.getChildCount();
+        for (int i = 0; i < count; i++) {
+            View child = t1.getChildAt(i);
+            if (child instanceof TableRow) ((ViewGroup) child).removeAllViews();
+        }
+
         mylistener = new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
