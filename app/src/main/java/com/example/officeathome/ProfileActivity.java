@@ -571,4 +571,14 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             }
         }
     }
+    @Override
+    public void onBackPressed(){
+        Intent intent = new Intent(ProfileActivity.this, MainSearch.class);
+        Log.d("TAG", "*****Email address:" + email);
+        Bundle bd = new Bundle();
+        bd.putString("ID",email);
+        intent.putExtras(bd);
+        startActivity(intent);
+        finish();
+    }
 }

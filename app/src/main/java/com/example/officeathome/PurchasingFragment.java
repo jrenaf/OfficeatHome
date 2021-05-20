@@ -28,7 +28,7 @@ import java.util.ArrayList;
 
 public class PurchasingFragment extends Fragment {
     private TableLayout t1;
-    private ArrayList<People> arr_people = new ArrayList<>();;
+    private ArrayList<People> arr_people = new ArrayList<>();
 
     private FirebaseDatabase database = FirebaseDatabase.
             getInstance("https://officeathome-77d7b-default-rtdb.firebaseio.com/");
@@ -40,6 +40,13 @@ public class PurchasingFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+        arr_people = new ArrayList<>();
+        int count = t1.getChildCount();
+        for (int i = 0; i < count; i++) {
+            View child = t1.getChildAt(i);
+            if (child instanceof TableRow) ((ViewGroup) child).removeAllViews();
+        }
+
         mylistener = new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {

@@ -47,8 +47,8 @@ public class MainSearch extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.search);
 
-        Bundle bundle = getIntent().getExtras();
-        email = bundle.getString("myID");
+        Intent intent=this.getIntent();
+        email = intent.getStringExtra("myID");
 
         androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -158,7 +158,7 @@ public class MainSearch extends AppCompatActivity{
 
     public void luanchMeProfile(View view) {
         Intent intent = new Intent(MainSearch.this, ProfileActivity.class);
-        intent.putExtra("myID", email);
+        intent.putExtra("ID", email);
         startActivity(intent);
     }
 
