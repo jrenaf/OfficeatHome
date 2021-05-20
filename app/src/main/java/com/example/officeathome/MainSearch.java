@@ -1,7 +1,10 @@
 package com.example.officeathome;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,12 +16,16 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 import androidx.preference.PreferenceManager;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -26,7 +33,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class MainSearch extends AppCompatActivity{
@@ -42,6 +54,12 @@ public class MainSearch extends AppCompatActivity{
     private FirebaseDatabase database = FirebaseDatabase.
             getInstance("https://officeathome-77d7b-default-rtdb.firebaseio.com/");
     private DatabaseReference myRef = database.getReference("user");
+
+    private Bitmap selfHead;
+    private String selfHeadPath;
+    private FirebaseStorage storage = FirebaseStorage.getInstance();
+    private StorageReference headRef = storage.getReference("heads");
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -121,6 +139,45 @@ public class MainSearch extends AppCompatActivity{
                 (SettingActivity.KEY_PREF_EXAMPLE_SWITCH, false);
         Toast.makeText(this, switchPref.toString(),
                 Toast.LENGTH_SHORT).show();
+
+        initSelfHead();
+
+    }
+
+    private void initSelfHead() {
+        final long ONE_MEGABYTE = 1024 * 1024;
+        headRef.child(email).getBytes(ONE_MEGABYTE).
+                addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                    @Override
+                    public void onSuccess(byte[] bytes) {
+                        // Data for "images/island.jpg" is returns, use this as needed
+                        selfHead = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                        //Write file
+                        selfHeadPath = "myHead.jpeg";
+                        FileOutputStream stream = null;
+                        try {
+                            stream = openFileOutput(selfHeadPath, Context.MODE_PRIVATE);
+                            selfHead.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+
+                            stream.close();
+                            selfHead.recycle();
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+                        Toast.makeText(MainSearch.this,"Download Success",Toast.LENGTH_SHORT).show();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle any errors
+                selfHead = null;
+                selfHeadPath = null;
+                Toast.makeText(MainSearch.this,"Download Failed",Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
@@ -159,6 +216,8 @@ public class MainSearch extends AppCompatActivity{
     public void luanchMeProfile(View view) {
         Intent intent = new Intent(MainSearch.this, ProfileActivity.class);
         intent.putExtra("myID", email);
+        //intent.putExtra("myHead", selfHead);
+        intent.putExtra("myHead", selfHeadPath);
         startActivity(intent);
     }
 
