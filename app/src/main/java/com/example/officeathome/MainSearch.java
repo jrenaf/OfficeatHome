@@ -6,13 +6,18 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.SearchView;
+import android.widget.TableLayout;
+import android.widget.TableRow;
+import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.preference.PreferenceManager;
+import androidx.preference.PreferenceFragmentCompat;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
+import androidx.preference.PreferenceManager;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.database.DataSnapshot;
@@ -43,7 +48,7 @@ public class MainSearch extends AppCompatActivity{
         setContentView(R.layout.search);
 
         Intent intent=this.getIntent();
-        email = intent.getStringExtra("ID");
+        email = intent.getStringExtra("myID");
 
         androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -153,7 +158,7 @@ public class MainSearch extends AppCompatActivity{
 
     public void luanchMeProfile(View view) {
         Intent intent = new Intent(MainSearch.this, ProfileActivity.class);
-        intent.putExtra("ID", email);
+        intent.putExtra("myID", email);
         startActivity(intent);
     }
 

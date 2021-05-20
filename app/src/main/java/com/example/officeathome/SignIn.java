@@ -2,13 +2,13 @@ package com.example.officeathome;
 
 
 import android.content.Intent;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -50,6 +50,10 @@ public class SignIn extends AppCompatActivity {
 
         String email = mEmail.getText().toString();
         String password = mPassword.getText().toString();
+        if (email.equals("") || password.equals("")){
+            Toast.makeText(SignIn.this, "Please type in your email and password.", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -62,6 +66,7 @@ public class SignIn extends AppCompatActivity {
                         // signed in user can be handled in the listener.
                         if (!task.isSuccessful()) {
                             //Log.w("TAG", "signInWithEmail:failed", task.getException());
+                            Toast.makeText(SignIn.this, "Email or password is not correct.", Toast.LENGTH_SHORT).show();
                             overridePendingTransition(0, 0);
                             finish();
                             overridePendingTransition(0, 0);
@@ -70,7 +75,7 @@ public class SignIn extends AppCompatActivity {
                         } else {
                             //checkIfEmailVerified();
                             Intent intent = new Intent(SignIn.this, MainSearch.class);
-                            intent.putExtra("ID", email);
+                            intent.putExtra("myID", email);
                             startActivity(intent);
                             Toast.makeText(SignIn.this, "Successfully logged in", Toast.LENGTH_SHORT).show();
                         }

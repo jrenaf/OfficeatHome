@@ -8,16 +8,15 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
-
 import android.os.Handler;
 
 import android.provider.MediaStore;
-
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -32,10 +31,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
-
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-
 
 
 import java.io.FileInputStream;
@@ -283,7 +280,7 @@ public class AfterSearch extends AppCompatActivity implements View.OnClickListen
     @Override
     public void onClick(View view) {
         if (email != mData2.get(view.getId()).email) {
-            Intent intent = new Intent(AfterSearch.this, ProfileActivity.class);
+            Intent intent = new Intent(AfterSearch.this, OtherProfileActivity.class);
             intent.putExtra("myID", email);
             intent.putExtra("targetID",mData2.get(view.getId()).email) ;
             startActivity(intent);

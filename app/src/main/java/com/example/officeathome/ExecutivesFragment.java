@@ -23,8 +23,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
@@ -36,7 +34,6 @@ public class ExecutivesFragment extends Fragment {
             getInstance("https://officeathome-77d7b-default-rtdb.firebaseio.com/");
     private DatabaseReference myref = database.getReference("user");
     private ChildEventListener mylistener;
-    private StorageReference headRef = FirebaseStorage.getInstance().getReference("heads");
 
     private static final String TAG = "ExecutivesFragment";
 

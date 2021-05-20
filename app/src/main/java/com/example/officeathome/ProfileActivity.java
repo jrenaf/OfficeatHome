@@ -1,6 +1,5 @@
 package com.example.officeathome;
 
-
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -25,45 +24,43 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
+import android.os.Bundle;
+import androidx.core.app.NotificationCompat;
+import android.view.View;
+import android.widget.Button;
+
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.util.Log;
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
-import android.widget.ListAdapter;
-import android.widget.ListView;
-import android.widget.SimpleAdapter;
-import android.widget.Switch;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationCompat;
-
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -72,20 +69,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
+import com.google.firebase.database.ValueEventListener;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-
-public class ProfileActivity extends AppCompatActivity implements OnClickListener{
-
+public class ProfileActivity extends AppCompatActivity implements View.OnClickListener{
     ListView listView;
     Button add;//添加按钮
     TextView note_id;//向其他界面传值
@@ -126,21 +112,13 @@ public class ProfileActivity extends AppCompatActivity implements OnClickListene
             getInstance("https://officeathome-77d7b-default-rtdb.firebaseio.com/");
     private DatabaseReference myRef = database.getReference("user");
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
-
-    private FirebaseStorage storage = FirebaseStorage.getInstance();
-    private StorageReference headRef = storage.getReference("heads");
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.profile);
         //get the user's email
         Bundle bundle = getIntent().getExtras();
-        email = bundle.getString("ID");
-
-        Log.d("TAG", "*****Email address:" + email);
-
+        email = bundle.getString("myID");
         userName = (TextView) findViewById(R.id.personalPageName);
         availability = (TextView) findViewById(R.id.personalPageAvb);
         department = (TextView) findViewById(R.id.personalPageDepartment);
@@ -158,7 +136,6 @@ public class ProfileActivity extends AppCompatActivity implements OnClickListene
                 }
             }
         });
-
         Query query = myRef.orderByChild("email").equalTo(email);
         query.addChildEventListener(new ChildEventListener() {
             @Override
@@ -187,37 +164,7 @@ public class ProfileActivity extends AppCompatActivity implements OnClickListene
             public void onCancelled(DatabaseError databaseError) {
             }
         });
-
         initView();
-        Query query = myRef.orderByChild("email").equalTo(email);
-        query.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                // Data parsing is being done within the extending classes.
-                People people = dataSnapshot.getValue(People.class);
-                userName.setText(people.username);
-                if(people.availability){
-                    availability.setText("Available!");
-                    availSwitch.setChecked(true);
-                }
-                else{availability.setText("Not available!"); availSwitch.setChecked(false);}
-                department.setText(people.myDep);
-                level.setText(people.level);
-            }
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String prevChildKey) {}
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {}
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String prevChildKey) {}
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        });
-        //initView();
         listView = (ListView) findViewById(R.id.listView);
         add = (Button) findViewById(R.id.add);
 
@@ -295,7 +242,7 @@ public class ProfileActivity extends AppCompatActivity implements OnClickListene
 
         // Add onClick handlers to all the buttons.
         button_notify = findViewById(R.id.notify);
-        button_notify.setOnClickListener(new OnClickListener() {
+        button_notify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // Send the notification
@@ -364,34 +311,18 @@ public class ProfileActivity extends AppCompatActivity implements OnClickListene
         //btnPhotos.setOnClickListener(this);
         //btnTakephoto.setOnClickListener(this);
         ivHead = (ImageView) findViewById(R.id.personalPagePhoto);
-        final long ONE_MEGABYTE = 1024 * 1024;
-        headRef.child(email).getBytes(ONE_MEGABYTE).
-                addOnSuccessListener(new OnSuccessListener<byte[]>() {
-            @Override
-            public void onSuccess(byte[] bytes) {
-                // Data for "images/island.jpg" is returns, use this as needed
-                head = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                ivHead.setImageBitmap(head);
-                Toast.makeText(ProfileActivity.this,"Download Success",Toast.LENGTH_SHORT).show();
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                // Handle any errors
-            }
-        });
         ivHead.setOnClickListener(this);
-//        Bitmap bt = BitmapFactory.decodeFile(path + "head.jpg");//从Sd中找头像，转换成Bitmap
-//        if(bt!=null){
-//            @SuppressWarnings("deprecation")
-//            Drawable drawable = new BitmapDrawable(bt);//转换成drawable
-//            ivHead.setImageDrawable(drawable);
-//        }else{
-//            /**
-//             *	如果SD里面没有则需要从服务器取头像，取回来的头像再保存在SD中
-//             *
-//             */
-//        }
+        Bitmap bt = BitmapFactory.decodeFile(path + "head.jpg");//从Sd中找头像，转换成Bitmap
+        if(bt!=null){
+            @SuppressWarnings("deprecation")
+            Drawable drawable = new BitmapDrawable(bt);//转换成drawable
+            ivHead.setImageDrawable(drawable);
+        }else{
+            /**
+             *	如果SD里面没有则需要从服务器取头像，取回来的头像再保存在SD中
+             *
+             */
+        }
     }
 
     /**
@@ -587,7 +518,6 @@ public class ProfileActivity extends AppCompatActivity implements OnClickListene
                          * 上传服务器代码
                          */
                         setPicToView(head);//保存在SD卡中
-                        setPicToCloud(head);
                         ivHead.setImageBitmap(head);//用ImageView显示出来
                     }
                 }
@@ -597,32 +527,7 @@ public class ProfileActivity extends AppCompatActivity implements OnClickListene
 
         }
         super.onActivityResult(requestCode, resultCode, data);
-    }
-
-    private void setPicToCloud(Bitmap head) {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        head.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        byte[] data = baos.toByteArray();
-
-        UploadTask uploadTask = headRef.child(email).putBytes(data);
-        uploadTask.addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                // Handle unsuccessful uploads
-                Toast.makeText(ProfileActivity.this, "Failed Upload", Toast.LENGTH_SHORT).show();
-            }
-        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
-                // ...
-                Toast.makeText(ProfileActivity.this, "Successful Upload", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-    }
-
-    ;
+    };
     /**
      * 调用系统的裁剪
      * @param uri

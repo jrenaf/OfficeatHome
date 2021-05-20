@@ -78,8 +78,8 @@ public class SignUp extends AppCompatActivity
             spinner.setAdapter(adapter);
         }
 
-        departmentRowOne.setOnCheckedChangeListener(new departmentRowOneListener());
-        departmentRowTwo.setOnCheckedChangeListener(new departmentRowTwoListener());
+        departmentRowOne.setOnCheckedChangeListener(new SignUp.departmentRowOneListener());
+        departmentRowTwo.setOnCheckedChangeListener(new SignUp.departmentRowTwoListener());
         departmentRowOne.clearCheck();
         departmentRowTwo.clearCheck();
 
@@ -118,6 +118,9 @@ public class SignUp extends AppCompatActivity
             switch (validationForm()) {
                 case 1:
                     alertDialog.setMessage("Please ensure your email address is right.");
+                    break;
+                case 5:
+                    alertDialog.setMessage("Please set your username.");
                     break;
                 case 2:
                     alertDialog.setMessage("Please ensure your password is longer than 8 characters.");
@@ -164,6 +167,7 @@ public class SignUp extends AppCompatActivity
     private int validationForm(){
         String email = mEmail.getText().toString();
         String password = mPassword.getText().toString();
+        String username = mUsername.getText().toString();
 
         Pattern pattern = Pattern.
                 compile("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$");
@@ -174,6 +178,7 @@ public class SignUp extends AppCompatActivity
         else if(password.length()<8) return 2;
         else if(radioID==null) return 3;
         else if(level==null) return 4;
+        else if(username.equals("")) return 5;
         else return 0;
     }
 
@@ -182,6 +187,7 @@ public class SignUp extends AppCompatActivity
     {
         String email = mEmail.getText().toString();
         String password = mPassword.getText().toString();
+        String username = mUsername.getText().toString();
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -192,7 +198,7 @@ public class SignUp extends AppCompatActivity
                         if (task.isSuccessful()) {
                             // email sent
                             //checkIfEmailVerified();
-                            String username = "Wait to be changed";
+                            //String username = "Wait to be changed";
                             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                             writeNewUser(user.getUid(),email,username,password,level,false,radioID);
 
