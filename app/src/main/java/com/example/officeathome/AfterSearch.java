@@ -9,6 +9,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Gravity;
@@ -34,12 +35,14 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+
 public class AfterSearch extends AppCompatActivity implements View.OnClickListener {
 
     private String email;
     private String query;
     private ArrayList<People> mData = new ArrayList<People>();
     private ArrayList<People> mData2 = new ArrayList<People>();
+
     private FirebaseDatabase database = FirebaseDatabase.
             getInstance("https://officeathome-77d7b-default-rtdb.firebaseio.com/");
     private DatabaseReference myRef = database.getReference("user");
@@ -95,6 +98,7 @@ public class AfterSearch extends AppCompatActivity implements View.OnClickListen
             if(size%2!=0 && i==blockSize-1) {
                 People people = mData.get(2 * i);
                 addOneBlock(people,i);
+
             }
             else{
                 People people1 = mData.get(2 * i);
@@ -157,6 +161,7 @@ public class AfterSearch extends AppCompatActivity implements View.OnClickListen
     }
 
 
+
     private void addOneBlock(People people, int i){
         //first row of the block: two bitmap;
         TableLayout tblayout = findViewById(R.id.table_layout);
@@ -168,6 +173,7 @@ public class AfterSearch extends AppCompatActivity implements View.OnClickListen
         imv1.setImageBitmap(bm);
         imv1.setId(2*i);
         imv1.setOnClickListener(this);
+
         tr1.addView(imv1);
         tr1.addView(new ImageView(this));
         tblayout.addView(tr1);

@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -37,6 +36,7 @@ public class SignUp extends AppCompatActivity
     private FirebaseAuth mAuth;
     private EditText mEmail;
     private EditText mPassword;
+    private EditText mUsername;
 
     // Data need to be stored
     private String radioID = null;
@@ -84,8 +84,9 @@ public class SignUp extends AppCompatActivity
         departmentRowTwo.clearCheck();
 
         mAuth = FirebaseAuth.getInstance();
-        mEmail = findViewById(R.id.name_text);
+        mEmail = findViewById(R.id.email_text);
         mPassword = findViewById(R.id.password_text);
+        mUsername = findViewById(R.id.name_text);
 
     }
 

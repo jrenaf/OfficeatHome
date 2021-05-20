@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,9 +13,11 @@ import androidx.appcompat.app.AlertDialog;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -58,6 +61,16 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
 public class ProfileActivity extends AppCompatActivity implements View.OnClickListener{
     ListView listView;
     Button add;//添加按钮
@@ -87,10 +100,70 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     private NotificationManager mNotifyManager;
 
     private NotificationReceiver mReceiver = new NotificationReceiver();
+
+    //fireBase
+    String email;
+    private TextView userName;
+    private TextView availability;
+    private TextView department;
+    private TextView level;
+    private Switch availSwitch;
+    private FirebaseDatabase database = FirebaseDatabase.
+            getInstance("https://officeathome-77d7b-default-rtdb.firebaseio.com/");
+    private DatabaseReference myRef = database.getReference("user");
+    private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.profile);
+        //get the user's email
+        Bundle bundle = getIntent().getExtras();
+        email = bundle.getString("ID");
+        userName = (TextView) findViewById(R.id.personalPageName);
+        availability = (TextView) findViewById(R.id.personalPageAvb);
+        department = (TextView) findViewById(R.id.personalPageDepartment);
+        level = (TextView) findViewById(R.id.personalPageLevel);
+        availSwitch = (Switch) findViewById(R.id.switchAvailable);
+        availSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() { //This line has the error
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(availSwitch.isChecked()){
+                    availability.setText("Available!");
+                    myRef.child(user.getUid()).child("availability").setValue(true);
+                    //Toast.makeText(this, "No todo now, please add one.", Toast.LENGTH_SHORT).show();
+                }
+                else {availability.setText("Not available!");
+                    myRef.child(user.getUid()).child("availability").setValue(false);
+                }
+            }
+        });
+        Query query = myRef.orderByChild("email").equalTo(email);
+        query.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                // Data parsing is being done within the extending classes.
+                People people = dataSnapshot.getValue(People.class);
+                userName.setText(people.username);
+                if(people.availability){
+                    availability.setText("Available!");
+                    availSwitch.setChecked(true);
+                }
+                else{availability.setText("Not available!"); availSwitch.setChecked(false);}
+                department.setText(people.myDep);
+                level.setText(people.level);
+            }
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String prevChildKey) {}
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {}
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String prevChildKey) {}
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
         initView();
         listView = (ListView) findViewById(R.id.listView);
         add = (Button) findViewById(R.id.add);
