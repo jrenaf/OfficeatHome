@@ -4,192 +4,231 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#C8FFFFFF"
     tools:context="com.example.officeathome.SignUp">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_gravity="center"
-        android:orientation="vertical">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/login_textview"
+        <ImageView
+            android:id="@+id/signupbackground"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Office@Home Sign up"
-            android:textSize="30sp" />
+            android:background="@drawable/login" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
             android:layout_gravity="center"
-            android:orientation="horizontal">
+            android:background="#64FFFFFF"
+            android:orientation="vertical">
 
             <TextView
-                android:id="@+id/name_label"
+                android:id="@+id/login_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Username" />
-
-            <EditText
-                android:id="@+id/name_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
-                android:ems="10"
-                android:hint="Set your username"
-                android:inputType="textPersonName" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/password_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Password" />
-
-            <EditText
-                android:id="@+id/password_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
-                android:ems="10"
-                android:hint="Set your password"
-                android:inputType="textMultiLine|textPassword"
-                android:textStyle="normal" />
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/department_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Department" />
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:text="Sign up"
+                android:textSize="30sp"
+                android:textStyle="bold" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:orientation="vertical">
+                android:layout_marginStart="25dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginEnd="25dp"
+                android:layout_marginRight="25dp"
+                android:orientation="horizontal">
 
-                <RadioGroup
-                    android:id="@+id/department_group_one"
+                <TextView
+                    android:id="@+id/name_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-                    android:baselineAligned="true"
-                    android:baselineAlignedChildIndex="0"
-                    android:orientation="horizontal"
-                    app:layout_constraintBaseline_toBaselineOf="@+id/department_label"
-                    app:layout_constraintLeft_toRightOf="@+id/department_label">
+                    android:text="Username" />
 
-                    <RadioButton
-                        android:id="@+id/Executives"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Executives" />
-
-                    <RadioButton
-                        android:id="@+id/RD"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/r_d" />
-
-                    <RadioButton
-                        android:id="@+id/HR"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="HR" />
-
-                </RadioGroup>
-
-                <RadioGroup
-                    android:id="@+id/department_group_two"
+                <EditText
+                    android:id="@+id/name_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
                     android:layout_marginLeft="8dp"
-                    android:layout_marginTop="8dp"
-                    android:orientation="horizontal"
-                    app:layout_constraintLeft_toRightOf="@+id/department_label"
-                    app:layout_constraintTop_toBottomOf="@+id/department_label">
+                    android:ems="10"
+                    android:hint="Set your username"
+                    android:inputType="textPersonName" />
 
-
-                    <RadioButton
-                        android:id="@+id/Marketing"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Marketing" />
-
-                    <RadioButton
-                        android:id="@+id/Purchasing"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Purchasing" />
-
-                </RadioGroup>
             </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="25dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginEnd="25dp"
+                android:layout_marginRight="25dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/password_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Password" />
+
+                <EditText
+                    android:id="@+id/password_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:ems="10"
+                    android:hint="Set your password"
+                    android:inputType="textMultiLine|textPassword"
+                    android:textStyle="normal" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="25dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="25dp"
+                android:layout_marginRight="25dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/department_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="Department" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="vertical">
+
+                    <RadioGroup
+                        android:id="@+id/department_group_one"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:baselineAligned="true"
+                        android:baselineAlignedChildIndex="0"
+                        android:orientation="horizontal"
+                        app:layout_constraintBaseline_toBaselineOf="@+id/department_label"
+                        app:layout_constraintLeft_toRightOf="@+id/department_label">
+
+                        <RadioButton
+                            android:id="@+id/Executives"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Executives" />
+
+                        <RadioButton
+                            android:id="@+id/RD"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/r_d" />
+
+                        <RadioButton
+                            android:id="@+id/HR"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="HR" />
+
+                    </RadioGroup>
+
+                    <RadioGroup
+                        android:id="@+id/department_group_two"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginTop="8dp"
+                        android:orientation="horizontal"
+                        app:layout_constraintLeft_toRightOf="@+id/department_label"
+                        app:layout_constraintTop_toBottomOf="@+id/department_label">
+
+
+                        <RadioButton
+                            android:id="@+id/Marketing"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Marketing" />
+
+                        <RadioButton
+                            android:id="@+id/Purchasing"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Purchasing" />
+
+                    </RadioGroup>
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="25dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/level_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:text="Level" />
+
+                <Spinner
+                    android:id="@+id/level_spinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginLeft="32dp" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="40dp"
+                android:layout_marginBottom="10dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/Sign_up_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="launchGoToSignIn"
+                    android:text="Go to sign in" />
+
+                <Button
+                    android:id="@+id/Sign_in_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginLeft="32dp"
+                    android:onClick="launchSignUp"
+                    android:text="Sign up" />
+            </LinearLayout>
+
         </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/level_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Level"
-                android:layout_gravity="left"/>
-
-            <Spinner
-                android:id="@+id/level_spinner"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginLeft="32dp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:orientation="horizontal"
-            android:layout_marginTop = "40dp">
-
-            <Button
-                android:id="@+id/Sign_up_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="launchGoToSignIn"
-                android:text="Go to sign in" />
-
-            <Button
-                android:id="@+id/Sign_in_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginLeft="32dp"
-                android:onClick="launchSignUp"
-                android:text="Sign up" />
-        </LinearLayout>
-
-    </LinearLayout>
+    </FrameLayout>
 
 </RelativeLayout>
