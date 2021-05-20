@@ -47,8 +47,8 @@ public class MainSearch extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.search);
 
-        Bundle bundle = getIntent().getExtras();
-        email = bundle.getString("ID");
+        Intent intent=this.getIntent();
+        email = intent.getStringExtra("ID");
 
         androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
