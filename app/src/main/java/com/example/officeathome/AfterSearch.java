@@ -271,7 +271,7 @@ public class AfterSearch extends AppCompatActivity implements View.OnClickListen
     @Override
     public void onClick(View view) {
         if (email != mData2.get(view.getId()).email) {
-            Intent intent = new Intent(AfterSearch.this, ProfileActivity.class);
+            Intent intent = new Intent(AfterSearch.this, OtherProfileActivity.class);
             intent.putExtra("myID", email);
             intent.putExtra("targetID",mData2.get(view.getId()).email) ;
             startActivity(intent);

@@ -118,7 +118,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         setContentView(R.layout.profile);
         //get the user's email
         Bundle bundle = getIntent().getExtras();
-        email = bundle.getString("ID");
+        email = bundle.getString("myID");
         userName = (TextView) findViewById(R.id.personalPageName);
         availability = (TextView) findViewById(R.id.personalPageAvb);
         department = (TextView) findViewById(R.id.personalPageDepartment);
