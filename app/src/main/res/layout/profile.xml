@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:onClick="showMessageBoard"
         android:text="Message Board"
-        android:textSize="12sp"
+        android:textSize="8sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.533"
@@ -112,8 +112,8 @@
 
     <LinearLayout
         android:id="@+id/linearLayout2"
-        android:layout_width="341dp"
-        android:layout_height="251dp"
+        android:layout_width="326dp"
+        android:layout_height="238dp"
         android:background="#FAEAD3"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -160,8 +160,8 @@
 
     <LinearLayout
         android:id="@+id/linearLayout3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="108dp"
+        android:layout_height="65dp"
         android:layout_marginStart="13dp"
         android:layout_marginLeft="13dp"
         android:layout_marginEnd="32dp"
@@ -169,29 +169,26 @@
         android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.645"
+        app:layout_constraintHorizontal_bias="0.769"
         app:layout_constraintStart_toEndOf="@+id/linearLayout"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.197">
+        app:layout_constraintVertical_bias="0.22">
 
         <TextView
             android:id="@+id/personalPageAvb"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="3dp"
             android:text="Available!"
-            android:textColor="#B5C4B1"
-            android:textSize="24sp" />
+            android:textColor="#FAEAD3"
+            android:textSize="14sp" />
 
         <Switch
             android:id="@+id/switchAvailable"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginLeft="10dp"
-            android:background="@drawable/text_border" />
+            android:layout_marginTop="5dp"
+            android:background="@drawable/text_border"
+            android:textColor="@color/my_blue" />
 
     </LinearLayout>
 

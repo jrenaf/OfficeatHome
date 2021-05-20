@@ -17,10 +17,10 @@ public class DBHelper extends SQLiteOpenHelper {
      */
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        String sql="create table "+Note.TABLE+"("
-                +Note.KEY_id+" integer primary key autoincrement, "
-                +Note.KEY_title+" text, "
-                +Note.KEY_context+" text)";
+        String sql="create table "+ Note.TABLE+"("
+                + Note.KEY_id+" integer primary key autoincrement, "
+                + Note.KEY_title+" text, "
+                + Note.KEY_context+" text)";
         sqLiteDatabase.execSQL(sql);
     }
 
@@ -35,7 +35,7 @@ public class DBHelper extends SQLiteOpenHelper {
      */
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-        sqLiteDatabase.execSQL("drop table if exists "+Note.TABLE);
+        sqLiteDatabase.execSQL("drop table if exists "+ Note.TABLE);
         onCreate(sqLiteDatabase);
     }
 }

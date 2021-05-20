@@ -3,7 +3,7 @@ package com.example.officeathome;
 import com.google.firebase.database.IgnoreExtraProperties;
 
 @IgnoreExtraProperties
-public class People {
+public class People  {
 
     //public String uid;
     public String email;
@@ -12,6 +12,7 @@ public class People {
     public String level;
     public boolean availability;
     public String myDep;
+    //public String avatar;
 
     public People() {
         // Default constructor required for calls to DataSnapshot.getValue(People.class)
@@ -26,5 +27,11 @@ public class People {
         this.level = level;
         this.availability = availability;
         this.myDep = dep;
+
+//        ImageUtil iu = new ImageUtil();
+//        Resources res = getApplicationContext().getResources();
+//        Drawable drawable = ResourcesCompat.getDrawable(res, R.drawable.person_avatar, null);
+//        Bitmap  bitmap = ((BitmapDrawable) drawable).getBitmap();
+//        this.avatar = iu.convert(bitmap);
     }
 }

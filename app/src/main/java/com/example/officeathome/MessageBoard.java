@@ -1,7 +1,5 @@
 package com.example.officeathome;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;

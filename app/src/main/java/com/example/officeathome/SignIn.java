@@ -2,26 +2,18 @@ package com.example.officeathome;
 
 
 import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 public class SignIn extends AppCompatActivity {
 
@@ -35,7 +27,7 @@ public class SignIn extends AppCompatActivity {
         setContentView(R.layout.log_in);
 
         mEmail = findViewById(R.id.name_text);
-        mPassword = findViewById(R.id.password_text);
+        mPassword = findViewById(R.id.email_text);
         mAuth = FirebaseAuth.getInstance();
     }
 

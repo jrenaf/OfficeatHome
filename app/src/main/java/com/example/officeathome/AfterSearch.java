@@ -8,13 +8,11 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -29,15 +27,17 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class AfterSearch extends AppCompatActivity {
+
+public class AfterSearch extends AppCompatActivity implements View.OnClickListener {
 
     private String email;
     private String query;
-    public ArrayList<People> mData = new ArrayList<People>();;
+    private ArrayList<People> mData = new ArrayList<People>();
+    private ArrayList<People> mData2 = new ArrayList<People>();
+
     private FirebaseDatabase database = FirebaseDatabase.
             getInstance("https://officeathome-77d7b-default-rtdb.firebaseio.com/");
     private DatabaseReference myRef = database.getReference("user");
@@ -83,6 +83,7 @@ public class AfterSearch extends AppCompatActivity {
 
         //based on the size , format the tablelayout
         int size = mData.size();
+        mData2 = mData;
         Log.d("TAG", "****************" + size);
         int blockSize;
         if(size%2==0) blockSize=size/2;
@@ -91,16 +92,17 @@ public class AfterSearch extends AppCompatActivity {
         for (int i =0; i < blockSize; i++){
             if(size%2!=0 && i==blockSize-1) {
                 People people = mData.get(2 * i);
-                addOneBlock(people);
+                addOneBlock(people,i);
+
             }
             else{
                 People people1 = mData.get(2 * i);
                 People people2 = mData.get(2 * i + 1);
-                addOneBlock(people1, people2);
+                addOneBlock(people1, people2,i);
             }
         }
     }
-    private void addOneBlock(People people1, People people2){
+    private void addOneBlock(People people1, People people2, int i){
         //first row of the block: two bitmap;
         TableLayout tblayout = findViewById(R.id.table_layout);
         TableRow tr1 = new TableRow(this);
@@ -108,8 +110,12 @@ public class AfterSearch extends AppCompatActivity {
         ImageView imv1 = new ImageView(this);
         Bitmap bm = BitmapFactory.decodeResource(getResources(), R.drawable.person_avatar);
         imv1.setImageBitmap(bm);
+        imv1.setId(2*i);
+        imv1.setOnClickListener(this);
         ImageView imv2 = new ImageView(this);
         imv2.setImageBitmap(bm);
+        imv2.setId(2*i+1);
+        imv2.setOnClickListener(this);
         tr1.addView(imv1);
         tr1.addView(imv2);
         tblayout.addView(tr1);
@@ -150,7 +156,8 @@ public class AfterSearch extends AppCompatActivity {
     }
 
 
-    private void addOneBlock(People people){
+
+    private void addOneBlock(People people, int i){
         //first row of the block: two bitmap;
         TableLayout tblayout = findViewById(R.id.table_layout);
 
@@ -159,6 +166,9 @@ public class AfterSearch extends AppCompatActivity {
         ImageView imv1 = new ImageView(this);
         Bitmap bm = BitmapFactory.decodeResource(getResources(), R.drawable.person_avatar);
         imv1.setImageBitmap(bm);
+        imv1.setId(2*i);
+        imv1.setOnClickListener(this);
+
         tr1.addView(imv1);
         tr1.addView(new ImageView(this));
         tblayout.addView(tr1);
@@ -252,5 +262,15 @@ public class AfterSearch extends AppCompatActivity {
             context = ((ContextWrapper) context).getBaseContext();
         }
         return (Activity) context;
+    }
+    @Override
+    public void onClick(View view) {
+        if (email != mData2.get(view.getId()).email) {
+            Intent intent = new Intent(AfterSearch.this, ProfileActivity.class);
+            intent.putExtra("myID", email);
+            intent.putExtra("targetID",mData2.get(view.getId()).email) ;
+            startActivity(intent);
+        }
+        else{}
     }
 }
