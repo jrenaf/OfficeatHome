@@ -78,8 +78,8 @@ public class SignUp extends AppCompatActivity
             spinner.setAdapter(adapter);
         }
 
-        departmentRowOne.setOnCheckedChangeListener(new SignUp.departmentRowOneListener());
-        departmentRowTwo.setOnCheckedChangeListener(new SignUp.departmentRowTwoListener());
+        departmentRowOne.setOnCheckedChangeListener(new departmentRowOneListener());
+        departmentRowTwo.setOnCheckedChangeListener(new departmentRowTwoListener());
         departmentRowOne.clearCheck();
         departmentRowTwo.clearCheck();
 
