@@ -119,6 +119,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         //get the user's email
         Bundle bundle = getIntent().getExtras();
         email = bundle.getString("ID");
+        Log.d("TAG", "*****Email address:" + email);
         userName = (TextView) findViewById(R.id.personalPageName);
         availability = (TextView) findViewById(R.id.personalPageAvb);
         department = (TextView) findViewById(R.id.personalPageDepartment);
@@ -570,5 +571,15 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 e.printStackTrace();
             }
         }
+    }
+    @Override
+    public void onBackPressed(){
+        Intent intent = new Intent(ProfileActivity.this, MainSearch.class);
+        Log.d("TAG", "*****Email address:" + email);
+        Bundle bd = new Bundle();
+        bd.putString("ID",email);
+        intent.putExtras(bd);
+        startActivity(intent);
+        finish();
     }
 }
