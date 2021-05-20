@@ -158,7 +158,7 @@ public class MainSearch extends AppCompatActivity{
 
     public void luanchMeProfile(View view) {
         Intent intent = new Intent(MainSearch.this, ProfileActivity.class);
-        intent.putExtra("ID", email);
+        intent.putExtra("myID", email);
         startActivity(intent);
     }
 
