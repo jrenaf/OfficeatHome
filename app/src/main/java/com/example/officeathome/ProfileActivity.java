@@ -71,7 +71,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
     private FloatingActionButton backButton;
     //fireBase
-    String email;
+    private String email;
     private TextView userName;
     private TextView availability;
     private TextView department;

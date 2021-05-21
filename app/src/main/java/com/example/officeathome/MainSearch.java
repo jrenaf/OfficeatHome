@@ -13,15 +13,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+
 import android.widget.SearchView;
-import android.widget.TableLayout;
-import android.widget.TableRow;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.preference.PreferenceFragmentCompat;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 import androidx.preference.PreferenceManager;
@@ -53,7 +50,7 @@ public class MainSearch extends AppCompatActivity{
      *
      * @param savedInstanceState Saved instance state bundle.
      */
-    String email;
+    public String email;
     private FirebaseDatabase database = FirebaseDatabase.
             getInstance("https://officeathome-77d7b-default-rtdb.firebaseio.com/");
     private DatabaseReference myRef = database.getReference("user");
@@ -256,40 +253,6 @@ public class MainSearch extends AppCompatActivity{
         startActivity(intent);
         finish();
         overridePendingTransition(R.anim.down_in, R.anim.down_out);
-
-//        FrameLayout frameLayout = findViewById(R.id.frame_layout);
-//        frameLayout.bringChildToFront(findViewById(R.id.table_layout));
-//        TableLayout tl = findViewById(R.id.table_layout);
-//        //LinearLayout linearLayout = findViewById(R.id.linear_layout);
-//        //linearLayout.getBackground().setAlpha(100);
-//
-//        for (int i = 0; i <2; i++) {
-//            TableRow tr = new TableRow(this);
-//            tr.setId(i + 1);
-//            TextView tv=new TextView(this);
-//            tv.setText("test");
-//            tr.addView(tv);
-//            TextView tv2=new TextView(this);
-//            tv2.setText("test");
-//            tr.addView(tv2);
-//            tl.addView(tr);
-////            checkBox = new CheckBox(this);
-////            tv = new TextView(this);
-////            addBtn = new ImageButton(this);
-////            addBtn.setImageResource(R.drawable.add);
-////            minusBtn = new ImageButton(this);
-////            minusBtn.setImageResource(R.drawable.minus);
-////            qty = new TextView(this);
-////            checkBox.setText("hello");
-////            qty.setText("10");
-////            row.addView(checkBox);
-////            row.addView(minusBtn);
-////            row.addView(qty);
-////            row.addView(addBtn);
-////            ll.addView(row,i);
-////
-        //}
-
     }
 }
 
