@@ -593,7 +593,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         intent.putExtra("aspectX", 1);
         intent.putExtra("aspectY", 1);
         // outputX outputY 是裁剪图片宽高
-        intent.putExtra("outputX", 120);
+        intent.putExtra("outputX", 150);
         intent.putExtra("outputY", 150);
         intent.putExtra("return-data", true);
         startActivityForResult(intent, 3);
@@ -629,7 +629,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         Intent intent = new Intent(ProfileActivity.this, MainSearch.class);
         Log.d("TAG", "*****Email address:" + email);
         Bundle bd = new Bundle();
-        bd.putString("ID",email);
+        bd.putString("myID",email);
         intent.putExtras(bd);
         startActivity(intent);
         finish();
