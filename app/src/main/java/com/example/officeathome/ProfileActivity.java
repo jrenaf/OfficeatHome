@@ -109,7 +109,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     private NotificationReceiver mReceiver = new NotificationReceiver();
 
     //fireBase
-    String email;
+    private String email;
     private TextView userName;
     private TextView availability;
     private TextView department;
@@ -128,8 +128,8 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.profile);
         //get the user's email
-        Bundle bundle = getIntent().getExtras();
-        email = bundle.getString("myID");
+        Intent intentRec=this.getIntent();
+        email = intentRec.getStringExtra("myID");
         userName = (TextView) findViewById(R.id.personalPageName);
         availability = (TextView) findViewById(R.id.personalPageAvb);
         department = (TextView) findViewById(R.id.personalPageDepartment);
@@ -324,6 +324,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         //btnTakephoto.setOnClickListener(this);
         ivHead = (ImageView) findViewById(R.id.personalPagePhoto);
         final long ONE_MEGABYTE = 1024 * 1024;
+        Log.d("TAG", "Emailllllllllllllll:  " + email);
         headRef.child(email).getBytes(ONE_MEGABYTE).
                 addOnSuccessListener(new OnSuccessListener<byte[]>() {
                     @Override
@@ -628,9 +629,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     public void onBackPressed(){
         Intent intent = new Intent(ProfileActivity.this, MainSearch.class);
         Log.d("TAG", "*****Email address:" + email);
-        Bundle bd = new Bundle();
-        bd.putString("ID",email);
-        intent.putExtras(bd);
+        intent.putExtra("myID",email);
         startActivity(intent);
         finish();
     }
