@@ -332,6 +332,7 @@ public class AfterSearch extends AppCompatActivity implements View.OnClickListen
                         // Data for "images/island.jpg" is returns, use this as needed
                         Bitmap head1;
                         head1 = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                        head1 = Bitmap.createScaledBitmap(head1, 250,250, true);
                         imv1.setImageBitmap(head1);
                         //Toast.makeText(AfterSearch.this, "Download Success", Toast.LENGTH_SHORT).show();
                     }
@@ -350,6 +351,7 @@ public class AfterSearch extends AppCompatActivity implements View.OnClickListen
                         // Data for "images/island.jpg" is returns, use this as needed
                         Bitmap head2;
                         head2 = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                        head2 = Bitmap.createScaledBitmap(head2, 250,250, true);
                         imv2.setImageBitmap(head2);
                         //Toast.makeText(AfterSearch.this, "Download Success", Toast.LENGTH_SHORT).show();
                     }
@@ -376,6 +378,7 @@ public class AfterSearch extends AppCompatActivity implements View.OnClickListen
                         // Data for "images/island.jpg" is returns, use this as needed
                         Bitmap head;
                         head = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                        head = Bitmap.createScaledBitmap(head, 250,250, true);
                         imv.setImageBitmap(head);
                         //Toast.makeText(AfterSearch.this, "Download Success", Toast.LENGTH_SHORT).show();
                     }
