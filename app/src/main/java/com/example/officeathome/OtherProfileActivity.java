@@ -135,7 +135,9 @@ public class OtherProfileActivity extends AppCompatActivity implements View.OnCl
 
     public void showMessageBoard(View view) {
         // Do something in response to button click
-        Intent messageIntent = new Intent(this, MessageBoard.class);
+        Intent messageIntent = new Intent(this, SecondActivity.class);
+        messageIntent.putExtra("userEmail", userEmail);
+        messageIntent.putExtra("targetEmail", targetEmail);
         startActivity(messageIntent);
     }
     @Override

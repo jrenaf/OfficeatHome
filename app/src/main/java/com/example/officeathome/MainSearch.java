@@ -179,6 +179,7 @@ public class MainSearch extends AppCompatActivity{
                 // Handle any errors
                 selfHead = null;
                 selfHeadPath = null;
+                meButton.setVisibility(View.VISIBLE);
                 Toast.makeText(MainSearch.this,"Download Failed",Toast.LENGTH_SHORT).show();
             }
         });

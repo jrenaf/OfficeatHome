@@ -9,6 +9,22 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.OfficeatHome">
+        <activity android:name=".SecondActivity"
+            android:label = "Message Board"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=
+                    ".MainActivity" />
+        </activity>
+        <activity android:name=".ThirdActivity"
+            android:label = "Message Board"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=
+                    ".MainActivity" />
+        </activity>
         <activity
             android:name=".SignIn"
             android:screenOrientation="portrait">
@@ -27,11 +43,11 @@
         </activity>
         <activity
             android:name=".SignUp"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".MainSearch"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme"/>
         <activity
             android:name=".SettingActivity"
             android:label="Settings"

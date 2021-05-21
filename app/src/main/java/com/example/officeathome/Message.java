@@ -11,15 +11,19 @@ public class Message {
     public String sender_uid;
     public String receiver_uid;
     public String text;
+    public String date;
+    public String sender_name;
 
     public Message() {
         // Default constructor required for calls to DataSnapshot.getValue(Message.class)
     }
 
-    public Message(String sender_uid, String receiver_uid, String text) {
+    public Message(String sender_uid, String receiver_uid, String text, String date, String  sender_name) {
         this.sender_uid = sender_uid;
         this.receiver_uid = receiver_uid;
         this.text = text;
+        this.date = date;
+        this.sender_name = sender_name;
     }
 
     @Exclude
@@ -28,6 +32,8 @@ public class Message {
         result.put("sender_uid", sender_uid);
         result.put("receiver_uid", receiver_uid);
         result.put("text", text);
+        result.put("date", date);
+        result.put("sender_name", sender_name);
 
         return result;
     }

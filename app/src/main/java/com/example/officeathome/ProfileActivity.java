@@ -218,7 +218,8 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     }
     public void showMessageBoard(View view) {
         // Do something in response to button click
-        Intent messageIntent = new Intent(this, MessageBoard.class);
+        Intent messageIntent = new Intent(this, ThirdActivity.class);
+        messageIntent.putExtra("myEmail", email);
         startActivity(messageIntent);
     }
     @Override
