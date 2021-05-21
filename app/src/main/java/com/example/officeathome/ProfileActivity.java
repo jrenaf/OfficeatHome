@@ -171,8 +171,11 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                     Intent intent = new Intent();
                     intent.setClass(ProfileActivity.this, DetailActivity.class);
                     Bundle bd = new Bundle();
+                    Bundle bd2 = new Bundle();
                     bd.putString("myID",email);
+                    bd2.putString("myHead",headPath);
                     intent.putExtras(bd);
+                    intent.putExtras(bd2);
                     intent.putExtra("note_id", Integer.parseInt(id));
                     startActivity(intent);
                 }
@@ -235,6 +238,9 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 Bundle bd1 = new Bundle();
                 bd1.putString("myID",email);
                 intent.putExtras(bd1);
+                Bundle bd2 = new Bundle();
+                bd2.putString("myHead",headPath);
+                intent.putExtras(bd2);
                 startActivity(intent);
                 finish();
                 break;
@@ -244,6 +250,9 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 Bundle bd = new Bundle();
                 bd.putString("myID",email);
                 intent2.putExtras(bd);
+                Bundle bd3 = new Bundle();
+                bd3.putString("myHead",headPath);
+                intent2.putExtras(bd3);
                 //intent2.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent2);
                 finish();

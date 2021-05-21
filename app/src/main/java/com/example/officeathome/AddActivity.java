@@ -31,6 +31,7 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
     private Button finish;  //完成按钮
     private String get_title;
     private String get_context;
+    private String headPath;
     String email;
 
     // Constants for the notification actions buttons.
@@ -57,6 +58,7 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
         setContentView(R.layout.add);
         Bundle bundle = getIntent().getExtras();
         email = bundle.getString("myID");
+        headPath = bundle.getString("myHead");
 
         back = (Button) findViewById(R.id.back_add);
         title = (EditText) findViewById(R.id.title_add);
@@ -110,6 +112,9 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
                     Bundle bd = new Bundle();
                     bd.putString("myID",email);
                     intent.putExtras(bd);
+                    Bundle bd2 = new Bundle();
+                    bd2.putString("myHead",headPath);
+                    intent.putExtras(bd2);
                     startActivity(intent);
                 } else {
                     Toast.makeText(AddActivity.this, "Fail to add!", Toast.LENGTH_SHORT).show();
@@ -120,6 +125,9 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
             Bundle bd = new Bundle();
             bd.putString("myID",email);
             intent.putExtras(bd);
+            Bundle bd2 = new Bundle();
+            bd2.putString("myHead",headPath);
+            intent.putExtras(bd2);
             startActivity(intent);
         }
 

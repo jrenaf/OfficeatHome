@@ -20,6 +20,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
     private int note_id=0;
     private String get_title;
     private String get_context;
+    private String headPath;
     String email;
 
     @Override
@@ -29,6 +30,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
 
         Bundle bundle = getIntent().getExtras();
         email = bundle.getString("myID");
+        headPath = bundle.getString("myHead");
 
         title=(EditText) findViewById(R.id.title_detail);
         context=(EditText) findViewById(R.id.context_detail);
@@ -55,6 +57,9 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
             Bundle bd = new Bundle();
             bd.putString("myID",email);
             intent.putExtras(bd);
+            Bundle bd2 = new Bundle();
+            bd2.putString("myHead",headPath);
+            intent.putExtras(bd2);
             startActivity(intent);
         }else if(view == findViewById(R.id.save_detail)){
             get_title=title.getText().toString().trim();
@@ -75,6 +80,9 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
                 Bundle bd = new Bundle();
                 bd.putString("myID",email);
                 intent.putExtras(bd);
+                Bundle bd2 = new Bundle();
+                bd2.putString("myHead",headPath);
+                intent.putExtras(bd2);
                 startActivity(intent);
 
             }

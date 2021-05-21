@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.SearchView;
@@ -27,6 +28,7 @@ import androidx.preference.PreferenceManager;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -60,6 +62,7 @@ public class MainSearch extends AppCompatActivity{
     private String selfHeadPath;
     private FirebaseStorage storage = FirebaseStorage.getInstance();
     private StorageReference headRef = storage.getReference("heads");
+    private FloatingActionButton meButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +71,10 @@ public class MainSearch extends AppCompatActivity{
 
         Intent intent=this.getIntent();
         email = intent.getStringExtra("myID");
+        selfHeadPath = intent.getStringExtra("myHead");
+
+        meButton = findViewById(R.id.fab);
+        if(selfHeadPath.equals(""))meButton.setVisibility(View.GONE);
 
         androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -167,8 +174,7 @@ public class MainSearch extends AppCompatActivity{
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-
-                        Toast.makeText(MainSearch.this,"Download Success",Toast.LENGTH_SHORT).show();
+                        meButton.setVisibility(View.VISIBLE);
                     }
                 }).addOnFailureListener(new OnFailureListener() {
             @Override
