@@ -76,6 +76,7 @@ public class SignIn extends AppCompatActivity {
                             //checkIfEmailVerified();
                             Intent intent = new Intent(SignIn.this, MainSearch.class);
                             intent.putExtra("myID", email);
+                            intent.putExtra("myHead", "");
                             startActivity(intent);
                             Toast.makeText(SignIn.this, "Successfully logged in", Toast.LENGTH_SHORT).show();
                         }
