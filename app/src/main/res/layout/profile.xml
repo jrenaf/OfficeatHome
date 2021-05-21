@@ -151,7 +151,6 @@
             android:layout_gravity="center"
             android:layout_marginBottom="30dp"
             android:background="@android:drawable/ic_menu_add"
-            android:onClick="showAddPage"
             android:textColor="#969696"
             android:textSize="30dp"></Button>
 

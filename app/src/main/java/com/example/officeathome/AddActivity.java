@@ -31,6 +31,7 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
     private Button finish;  //完成按钮
     private String get_title;
     private String get_context;
+    String email;
 
     // Constants for the notification actions buttons.
     private static final String ACTION_UPDATE_NOTIFICATION =
@@ -54,6 +55,8 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add);
+        Bundle bundle = getIntent().getExtras();
+        email = bundle.getString("myID");
 
         back = (Button) findViewById(R.id.back_add);
         title = (EditText) findViewById(R.id.title_add);
@@ -102,8 +105,11 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
                 if (add) {
                     //Toast.makeText(AddActivity.this,"添加成功",Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent();
-                    intent.setClass(AddActivity.this, MainActivity.class);
+                    intent.setClass(AddActivity.this, ProfileActivity.class);
                     intent.putExtra("Insert", 1);
+                    Bundle bd = new Bundle();
+                    bd.putString("myID",email);
+                    intent.putExtras(bd);
                     startActivity(intent);
                 } else {
                     Toast.makeText(AddActivity.this, "Fail to add!", Toast.LENGTH_SHORT).show();
@@ -111,6 +117,9 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
             }
         } else if (view == findViewById(R.id.back_add)) {
             Intent intent = new Intent(AddActivity.this, ProfileActivity.class);
+            Bundle bd = new Bundle();
+            bd.putString("myID",email);
+            intent.putExtras(bd);
             startActivity(intent);
         }
 
