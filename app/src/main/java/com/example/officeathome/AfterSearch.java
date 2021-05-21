@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
 import android.os.Bundle;
 import android.os.Handler;
 
@@ -146,6 +148,8 @@ public class AfterSearch extends AppCompatActivity implements View.OnClickListen
         imv2.setId(2*i+1);
         imv2.setOnClickListener(this);
         setAvatar(imv1, imv2);
+        if(!mData2.get(imv1.getId()).availability) setBlackAndWhite(imv1);
+        if(!mData2.get(imv2.getId()).availability) setBlackAndWhite(imv2);
         tr1.addView(imv1);
         tr1.addView(imv2);
         tblayout.addView(tr1);
@@ -204,7 +208,7 @@ public class AfterSearch extends AppCompatActivity implements View.OnClickListen
         imv1.setId(2*i);
         imv1.setOnClickListener(this);
         setAvatar(imv1);
-
+        if(!mData2.get(imv1.getId()).availability) setBlackAndWhite(imv1);
         tr1.addView(imv1);
         tr1.addView(new ImageView(this));
         tblayout.addView(tr1);
@@ -233,6 +237,15 @@ public class AfterSearch extends AppCompatActivity implements View.OnClickListen
         tblayout.addView(tr3);
 
     }
+
+    private void setBlackAndWhite(ImageView imv){
+        ColorMatrix matrix = new ColorMatrix();
+        matrix.setSaturation(0);
+
+        ColorMatrixColorFilter filter = new ColorMatrixColorFilter(matrix);
+        imv.setColorFilter(filter);
+    }
+
     public static void setMargins (View v, int l, int t, int r, int b) {
         if (v.getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
             ViewGroup.MarginLayoutParams p = (ViewGroup.MarginLayoutParams) v.getLayoutParams();
