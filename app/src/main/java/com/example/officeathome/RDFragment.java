@@ -33,6 +33,7 @@ import java.util.ArrayList;
 
 public class RDFragment extends Fragment implements View.OnClickListener{
     public String email;
+    private String myHead;
     private TableLayout t1;
     private ArrayList<People> arr_people = new ArrayList<People>();;
 
@@ -50,7 +51,7 @@ public class RDFragment extends Fragment implements View.OnClickListener{
     public void onStart() {
         super.onStart();
         email = ((MainSearch)this.getActivity()).email;
-
+        myHead = ((MainSearch)this.getActivity()).selfHeadPath;
         arr_people = new ArrayList<>();
         int count = t1.getChildCount();
         for (int i = 0; i < count; i++) {
@@ -230,13 +231,15 @@ public class RDFragment extends Fragment implements View.OnClickListener{
     }
     @Override
     public void onClick(View view) {
-        if (email != arr_people.get(view.getId()).email) {
+        if (!email.equals(arr_people.get(view.getId()).email)) {
             Intent intent = new Intent(getActivity(), OtherProfileActivity.class);
             intent.putExtra("myID", email);
-            intent.putExtra("targetID",arr_people.get(view.getId()).email) ;
+            intent.putExtra("myHead", myHead);
+            intent.putExtra("targetID",arr_people.get(view.getId()).email);
             startActivity(intent);
         }
-        else{}
+        else{
+        }
     }
 
     private void setAvatar(ImageView imv1, ImageView imv2) {

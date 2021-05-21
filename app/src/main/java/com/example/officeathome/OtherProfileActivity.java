@@ -65,11 +65,12 @@ public class OtherProfileActivity extends AppCompatActivity implements View.OnCl
 
     private FloatingActionButton backButton;
     //fireBase
-    private String email;
+    private String userEmail;
+    private String targetEmail;
     private TextView userName;
     private TextView department;
     private TextView level;
-    private Switch availSwitch;
+    private TextView availability;
     private FirebaseDatabase database = FirebaseDatabase.
             getInstance("https://officeathome-77d7b-default-rtdb.firebaseio.com/");
     private DatabaseReference myRef = database.getReference("user");
@@ -77,6 +78,7 @@ public class OtherProfileActivity extends AppCompatActivity implements View.OnCl
 
     private FirebaseStorage storage = FirebaseStorage.getInstance();
     private StorageReference headRef = storage.getReference("heads");
+    private People people;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,24 +86,26 @@ public class OtherProfileActivity extends AppCompatActivity implements View.OnCl
         setContentView(R.layout.activity_other_profile);
         //get the user's email
         Bundle bundle = getIntent().getExtras();
-        email = bundle.getString("myID");
+        userEmail = bundle.getString("myID");
+        targetEmail = bundle.getString("targetID");
         //head = bundle.getParcelable("myHead");
         headPath = bundle.getString("myHead");
+        ivHead = findViewById(R.id.personalPagePhoto);
         userName = (TextView) findViewById(R.id.personalPageName);
         department = (TextView) findViewById(R.id.personalPageDepartment);
         level = (TextView) findViewById(R.id.personalPageLevel);
-        initView();
-        Query query = myRef.orderByChild("email").equalTo(email);
+        availability = (TextView) findViewById(R.id.personalPageAvb);
+        Query query = myRef.orderByChild("email").equalTo(targetEmail);
         query.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 // Data parsing is being done within the extending classes.
-                People people = dataSnapshot.getValue(People.class);
+                people = dataSnapshot.getValue(People.class);
                 userName.setText(people.username);
                 if (people.availability) {
-                    availSwitch.setChecked(true);
+                    availability.setText("Available!");
                 } else {
-                    availSwitch.setChecked(false);
+                    availability.setText("Not available!");
                 }
                 department.setText(people.myDep);
                 level.setText(people.level);
@@ -126,6 +130,7 @@ public class OtherProfileActivity extends AppCompatActivity implements View.OnCl
 
         backButton = findViewById(R.id.goBackButton);
         backButton.setOnClickListener(this);
+        setAvatar(ivHead);
     }
 
     public void showMessageBoard(View view) {
@@ -143,7 +148,7 @@ public class OtherProfileActivity extends AppCompatActivity implements View.OnCl
                 Intent intent2 = new Intent(this, MainSearch.class);
                 //Log.d("TAG", "*****Email address:" + email);
                 Bundle bd = new Bundle();
-                bd.putString("myID",email);
+                bd.putString("myID",userEmail);
                 intent2.putExtras(bd);
                 Bundle bd3 = new Bundle();
                 bd3.putString("myHead",headPath);
@@ -157,47 +162,28 @@ public class OtherProfileActivity extends AppCompatActivity implements View.OnCl
         }
     }
 
-    private void initView() {
-        ivHead = (ImageView) findViewById(R.id.personalPagePhoto);
-        if(headPath != null){
-            try {
-                FileInputStream is = this.openFileInput(headPath);
-                head = BitmapFactory.decodeStream(is);
-                is.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        if(head != null){
-            ivHead.setImageBitmap(head);
-        }
-        ivHead.setOnClickListener(this);
-    }
+    private void setAvatar(ImageView imv) {
+        final long ONE_MEGABYTE = 2048 * 2048;
+//        ImageView ivHead1 = (ImageView) findViewById(i1);
+//        ImageView ivHead2 = (ImageView) findViewById(i2);
+        Bitmap bm = BitmapFactory.decodeResource(getResources(), R.drawable.person_avatar);
 
-    private void setPicToView(Bitmap mBitmap) {
-        String sdStatus = Environment.getExternalStorageState();
-        if (!sdStatus.equals(Environment.MEDIA_MOUNTED)) { // 检测sd是否可用
-            return;
-        }
-        FileOutputStream b = null;
-        File file = new File(path);
-        file.mkdirs();// 创建文件夹
-        String fileName =path + "head.jpg";//图片名字
-        try {
-            b = new FileOutputStream(fileName);
-            mBitmap.compress(Bitmap.CompressFormat.JPEG, 100, b);// 把数据写入文件
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                //关闭流
-                if(b == null){}
-                else{b.flush();
-                    b.close();}
-            } catch (IOException e) {
-                e.printStackTrace();
+        headRef.child(targetEmail).getBytes(ONE_MEGABYTE).
+                addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                    @Override
+                    public void onSuccess(byte[] bytes) {
+                        // Data for "images/island.jpg" is returns, use this as needed
+                        Bitmap head;
+                        head = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                        imv.setImageBitmap(head);
+                        //Toast.makeText(AfterSearch.this, "Download Success", Toast.LENGTH_SHORT).show();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle any errors
+                imv.setImageBitmap(bm);
             }
-        }
+        });
     }
 }

@@ -56,7 +56,7 @@ public class MainSearch extends AppCompatActivity{
     private DatabaseReference myRef = database.getReference("user");
 
     private Bitmap selfHead;
-    private String selfHeadPath;
+    public String selfHeadPath;
     private FirebaseStorage storage = FirebaseStorage.getInstance();
     private StorageReference headRef = storage.getReference("heads");
     private FloatingActionButton meButton;
@@ -71,7 +71,7 @@ public class MainSearch extends AppCompatActivity{
         selfHeadPath = intent.getStringExtra("myHead");
 
         meButton = findViewById(R.id.fab);
-        if(selfHeadPath.equals(""))meButton.setVisibility(View.GONE);
+        if(selfHeadPath == null || selfHeadPath.equals(""))meButton.setVisibility(View.GONE);
 
         androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
