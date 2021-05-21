@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -145,6 +147,8 @@ public class PurchasingFragment extends Fragment implements View.OnClickListener
         imv2.setId(i+1);
         imv2.setOnClickListener(this);
         setAvatar(imv1, imv2);
+        if(arr_people.get(imv1.getId()).availability) setBlackAndWhite(imv1);
+        if(arr_people.get(imv2.getId()).availability) setBlackAndWhite(imv2);
         tr1.addView(imv1);
         tr1.addView(imv2);
         t1.addView(tr1);
@@ -201,6 +205,7 @@ public class PurchasingFragment extends Fragment implements View.OnClickListener
         imv1.setId(i);
         imv1.setOnClickListener(this);
         setAvatar(imv1);
+        if(arr_people.get(imv1.getId()).availability) setBlackAndWhite(imv1);
         tr1.addView(imv1);
         tr1.addView(new ImageView(getActivity()));
         t1.addView(tr1);
@@ -228,6 +233,14 @@ public class PurchasingFragment extends Fragment implements View.OnClickListener
         tr3.addView(new TextView(getActivity()));
         t1.addView(tr3);
 
+    }
+
+    private void setBlackAndWhite(ImageView imv){
+        ColorMatrix matrix = new ColorMatrix();
+        matrix.setSaturation(0);
+
+        ColorMatrixColorFilter filter = new ColorMatrixColorFilter(matrix);
+        imv.setColorFilter(filter);
     }
     @Override
     public void onClick(View view) {
