@@ -56,6 +56,7 @@ public class AfterSearch extends AppCompatActivity implements View.OnClickListen
     private FirebaseDatabase database = FirebaseDatabase.
             getInstance("https://officeathome-77d7b-default-rtdb.firebaseio.com/");
     private DatabaseReference myRef = database.getReference("user");
+    private String selfHeadPath;
 
 
     // Use a service account
@@ -73,6 +74,7 @@ public class AfterSearch extends AppCompatActivity implements View.OnClickListen
         Intent intent= this.getIntent();
         email = intent.getStringExtra("myID");
         query = intent.getStringExtra("q");
+        selfHeadPath = intent.getStringExtra("myHead");
 
 
         FloatingActionButton fab =  findViewById(R.id.fab);
@@ -82,6 +84,7 @@ public class AfterSearch extends AppCompatActivity implements View.OnClickListen
                 Activity currentActivity = unwrap(v.getContext());
                 Intent intent = new Intent(currentActivity, MainSearch.class);
                 intent.putExtra("myID", email);
+                intent.putExtra("myHead", selfHeadPath);
                 // Tell the new activity how return when finished.
                 currentActivity.startActivity(intent);
                 finish();

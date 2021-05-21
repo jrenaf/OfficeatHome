@@ -250,6 +250,7 @@ public class MainSearch extends AppCompatActivity{
         Intent intent = new Intent(this, AfterSearch.class);
         intent.putExtra("q", query);
         intent.putExtra("myID", email);
+        intent.putExtra("myHead", selfHeadPath);
         startActivity(intent);
         finish();
         overridePendingTransition(R.anim.down_in, R.anim.down_out);
