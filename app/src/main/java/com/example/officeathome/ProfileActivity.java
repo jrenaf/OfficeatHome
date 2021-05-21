@@ -23,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import android.graphics.Bitmap;
@@ -64,7 +65,8 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     private ImageView ivHead;//头像显示
     private Button btnTakephoto;//拍照
     //private Button btnPhotos;//相册
-    private Bitmap head;//头像Bitmap
+    private Bitmap head = null;//头像Bitmap
+    private String headPath;
     private static String path="/sdcard/myHead/";//sd路径
 
     private FloatingActionButton backButton;
@@ -90,6 +92,8 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         //get the user's email
         Bundle bundle = getIntent().getExtras();
         email = bundle.getString("myID");
+        //head = bundle.getParcelable("myHead");
+        headPath = bundle.getString("myHead");
         userName = (TextView) findViewById(R.id.personalPageName);
         availability = (TextView) findViewById(R.id.personalPageAvb);
         department = (TextView) findViewById(R.id.personalPageDepartment);
@@ -251,22 +255,35 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
     private void initView() {
         ivHead = (ImageView) findViewById(R.id.personalPagePhoto);
-        final long ONE_MEGABYTE = 1024 * 1024;
-        headRef.child(email).getBytes(ONE_MEGABYTE).
-                addOnSuccessListener(new OnSuccessListener<byte[]>() {
-                    @Override
-                    public void onSuccess(byte[] bytes) {
-                        // Data for "images/island.jpg" is returns, use this as needed
-                        head = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                        ivHead.setImageBitmap(head);
-                        Toast.makeText(ProfileActivity.this,"Download Success",Toast.LENGTH_SHORT).show();
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                // Handle any errors
+        if(headPath != null){
+            try {
+                FileInputStream is = this.openFileInput(headPath);
+                head = BitmapFactory.decodeStream(is);
+                is.close();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        });
+        }
+        if(head != null){
+            ivHead.setImageBitmap(head);
+        }
+//        final long ONE_MEGABYTE = 1024 * 1024;
+//        headRef.child(email).getBytes(ONE_MEGABYTE).
+//                addOnSuccessListener(new OnSuccessListener<byte[]>() {
+//                    @Override
+//                    public void onSuccess(byte[] bytes) {
+//                        // Data for "images/island.jpg" is returns, use this as needed
+//                        head = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+//                        ivHead.setImageBitmap(head);
+//                        Toast.makeText(ProfileActivity.this,"Download Success",Toast.LENGTH_SHORT).show();
+//                    }
+//                }).addOnFailureListener(new OnFailureListener() {
+//            @Override
+//            public void onFailure(@NonNull Exception exception) {
+//                // Handle any errors
+//                Toast.makeText(ProfileActivity.this,"Download Failed",Toast.LENGTH_SHORT).show();
+//            }
+//        });
         ivHead.setOnClickListener(this);
     }
 
