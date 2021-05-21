@@ -49,7 +49,7 @@
         <ImageView
             android:id="@+id/personalPagePhoto"
             android:layout_width="166dp"
-            android:layout_height="164dp"
+            android:layout_height="166dp"
             android:background="@drawable/text_border"
             android:contentDescription="TODO"
             app:srcCompat="@drawable/johnwick" />
@@ -191,5 +191,19 @@
             android:textColor="@color/my_blue" />
 
     </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/goBackButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:src="@drawable/ic_fab_cross_icon"
+        app:backgroundTint="@color/my_blue"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.881"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+        app:layout_constraintVertical_bias="0.493" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

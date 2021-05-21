@@ -3,6 +3,7 @@ package com.example.officeathome;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -156,10 +157,11 @@ public class MainSearch extends AppCompatActivity{
         return super.onOptionsItemSelected(item);
     }
 
-    public void luanchMeProfile(View view) {
+    public void launchMeProfile(View view) {
         Intent intent = new Intent(MainSearch.this, ProfileActivity.class);
         intent.putExtra("myID", email);
         startActivity(intent);
+        finish();
     }
 
     public ArrayList<People> searchBy(String keyword) {
@@ -185,7 +187,7 @@ public class MainSearch extends AppCompatActivity{
     public void goToAfterSearchPage(String query){
         Intent intent = new Intent(this, AfterSearch.class);
         intent.putExtra("q", query);
-        intent.putExtra("id", email);
+        intent.putExtra("myID", email);
         startActivity(intent);
         finish();
         overridePendingTransition(R.anim.down_in, R.anim.down_out);

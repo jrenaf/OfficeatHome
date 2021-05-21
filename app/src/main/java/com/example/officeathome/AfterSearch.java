@@ -64,7 +64,7 @@ public class AfterSearch extends AppCompatActivity implements View.OnClickListen
         setContentView(R.layout.aftersearch);
 
         Bundle bundle = getIntent().getExtras();
-        email = bundle.getString("ID");
+        email = bundle.getString("myID");
         query =  bundle.getString("q");
 
 
@@ -74,7 +74,7 @@ public class AfterSearch extends AppCompatActivity implements View.OnClickListen
             public void onClick(View v) {
                 Activity currentActivity = unwrap(v.getContext());
                 Intent intent = new Intent(currentActivity, MainSearch.class);
-                intent.putExtra("id", email);
+                intent.putExtra("myID", email);
                 // Tell the new activity how return when finished.
                 currentActivity.startActivity(intent);
                 finish();

@@ -65,6 +65,7 @@ import android.widget.ImageView;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -108,6 +109,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
     private NotificationReceiver mReceiver = new NotificationReceiver();
 
+    private FloatingActionButton backButton;
     //fireBase
     String email;
     private TextView userName;
@@ -181,6 +183,8 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         add = (Button) findViewById(R.id.add);
 
         add.setOnClickListener(this);
+        backButton = findViewById(R.id.goBackButton);
+        backButton.setOnClickListener(this);
 
         //通过list获取数据库表中的所有id和title，通过ListAdapter给listView赋值
         final NoteOperator noteOperator = new NoteOperator(ProfileActivity.this);
@@ -311,17 +315,21 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 intent.setClass(ProfileActivity.this, AddActivity.class);
                 ProfileActivity.this.startActivity(intent);
                 break;
+            case R.id.goBackButton:
+                Intent intent2 = new Intent(ProfileActivity.this, MainSearch.class);
+                //Log.d("TAG", "*****Email address:" + email);
+                Bundle bd = new Bundle();
+                bd.putString("myID",email);
+                intent2.putExtras(bd);
+                //intent2.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent2);
+                finish();
             default:
                 break;
         }
     }
 
     private void initView() {
-        //初始化控件
-        //btnPhotos = (Button) findViewById(R.id.btn_photos);
-        //btnTakephoto = (Button) findViewById(R.id.btn_takephoto);
-        //btnPhotos.setOnClickListener(this);
-        //btnTakephoto.setOnClickListener(this);
         ivHead = (ImageView) findViewById(R.id.personalPagePhoto);
         final long ONE_MEGABYTE = 1024 * 1024;
         headRef.child(email).getBytes(ONE_MEGABYTE).
@@ -340,17 +348,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             }
         });
         ivHead.setOnClickListener(this);
-//        Bitmap bt = BitmapFactory.decodeFile(path + "head.jpg");//从Sd中找头像，转换成Bitmap
-//        if(bt!=null){
-//            @SuppressWarnings("deprecation")
-//            Drawable drawable = new BitmapDrawable(bt);//转换成drawable
-//            ivHead.setImageDrawable(drawable);
-//        }else{
-//            /**
-//             *	如果SD里面没有则需要从服务器取头像，取回来的头像再保存在SD中
-//             *
-//             */
-//        }
     }
 
     /**
@@ -624,14 +621,33 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             }
         }
     }
-    @Override
+    /*@Override
     public void onBackPressed(){
+        /*Toast.makeText(ProfileActivity.this,"back button pressed",Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(ProfileActivity.this, MainSearch.class);
-        Log.d("TAG", "*****Email address:" + email);
+        //Log.d("TAG", "*****Email address:" + email);
         Bundle bd = new Bundle();
         bd.putString("myID",email);
         intent.putExtras(bd);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         finish();
-    }
+        Activity currentActivity = unwrap(v.getContext());
+        Intent intent = new Intent(currentActivity, MainSearch.class);
+        intent.putExtra("myID", email);
+        // Tell the new activity how return when finished.
+        currentActivity.startActivity(intent);
+        finish();
+        overridePendingTransition(R.anim.up_in, R.anim.up_out);
+    }*/
+    /*public void goBack(){
+        Intent intent = new Intent(ProfileActivity.this, MainSearch.class);
+        //Log.d("TAG", "*****Email address:" + email);
+        Bundle bd = new Bundle();
+        bd.putString("myID",email);
+        intent.putExtras(bd);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        finish();
+    }*/
 }
