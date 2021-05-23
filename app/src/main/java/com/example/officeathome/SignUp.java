@@ -119,16 +119,16 @@ public class SignUp extends AppCompatActivity
                 case 1:
                     alertDialog.setMessage("Please ensure your email address is right.");
                     break;
-                case 5:
+                case 2:
                     alertDialog.setMessage("Please set your username.");
                     break;
-                case 2:
+                case 3:
                     alertDialog.setMessage("Please ensure your password is longer than 8 characters.");
                     break;
-                case 3:
+                case 4:
                     alertDialog.setMessage("Please ensure your department is tabbed");
                     break;
-                case 4:
+                case 5:
                     alertDialog.setMessage("Please ensure your level is set.");
                     break;
             }
@@ -175,10 +175,10 @@ public class SignUp extends AppCompatActivity
 
 
         if(mail.find()==false) return 1;
-        else if(password.length()<8) return 2;
-        else if(radioID==null) return 3;
-        else if(level==null) return 4;
-        else if(username.equals("")) return 5;
+        else if(username.equals("")) return 2;
+        else if(password.length()<8) return 3;
+        else if(radioID==null) return 4;
+        else if(level==null) return 5;
         else return 0;
     }
 

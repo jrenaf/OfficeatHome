@@ -150,8 +150,8 @@ public class ExecutivesFragment extends Fragment implements View.OnClickListener
         imv2.setId(i+1);
         imv2.setOnClickListener(this);
         setAvatar(imv1, imv2);
-        if(arr_people.get(imv1.getId()).availability) setBlackAndWhite(imv1);
-        if(arr_people.get(imv2.getId()).availability) setBlackAndWhite(imv2);
+        if(!arr_people.get(imv1.getId()).availability) setBlackAndWhite(imv1);
+        if(!arr_people.get(imv2.getId()).availability) setBlackAndWhite(imv2);
         tr1.addView(imv1);
         tr1.addView(imv2);
         t1.addView(tr1);
