@@ -173,6 +173,42 @@ public class SecondActivity extends AppCompatActivity {
 
             }
         });
+
+        messageRef.child(sender_uid).orderByChild("sender_name").equalTo(targetEmail).addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                //for (DataSnapshot snapshot1 : snapshot.getChildren()){
+                int ListSize = mMesList.size();
+                Message ld = snapshot.getValue(Message.class);
+                mMesList.addLast(ld.text);
+                mAuthList.addLast(ld.sender_name);
+                mDateList.addLast(ld.date);
+                mRecyclerView.getAdapter().notifyItemInserted(ListSize);
+                mRecyclerView.smoothScrollToPosition(ListSize);
+                //}
+
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
 
@@ -181,6 +217,8 @@ public class SecondActivity extends AppCompatActivity {
 
         writeMessageTo(receiver_Uid, message, senderEmail);
         //Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+
+        mMes.getText().clear();
     }
 
 

@@ -145,6 +145,8 @@ public class ThirdActivity extends AppCompatActivity {
 
         writeMessageTo(receiver_Uid, message, "Me");
         //Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+
+        mMes.getText().clear();
     }
 
 
