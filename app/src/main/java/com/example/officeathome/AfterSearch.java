@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
 import android.os.Bundle;
 import android.os.Handler;
 
@@ -21,9 +23,13 @@ import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -33,6 +39,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 
 import java.io.FileInputStream;
@@ -54,7 +62,8 @@ public class AfterSearch extends AppCompatActivity implements View.OnClickListen
 
     // Use a service account
     // Access a Cloud Firestore instance from your Activity
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private FirebaseStorage storage = FirebaseStorage.getInstance();
+    private StorageReference headRef = storage.getReference("heads");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,9 +72,9 @@ public class AfterSearch extends AppCompatActivity implements View.OnClickListen
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.aftersearch);
 
-        Bundle bundle = getIntent().getExtras();
-        email = bundle.getString("ID");
-        query =  bundle.getString("q");
+        Intent intent= this.getIntent();
+        email = intent.getStringExtra("myID");
+        query = intent.getStringExtra("q");
 
 
         FloatingActionButton fab =  findViewById(R.id.fab);
@@ -74,7 +83,7 @@ public class AfterSearch extends AppCompatActivity implements View.OnClickListen
             public void onClick(View v) {
                 Activity currentActivity = unwrap(v.getContext());
                 Intent intent = new Intent(currentActivity, MainSearch.class);
-                intent.putExtra("id", email);
+                intent.putExtra("myID", email);
                 // Tell the new activity how return when finished.
                 currentActivity.startActivity(intent);
                 finish();
@@ -120,16 +129,24 @@ public class AfterSearch extends AppCompatActivity implements View.OnClickListen
         //first row of the block: two bitmap;
         TableLayout tblayout = findViewById(R.id.table_layout);
         TableRow tr1 = new TableRow(this);
-        tr1.setLayoutParams(new TableRow.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT));
+        TableLayout.LayoutParams params = new TableLayout.LayoutParams(
+                TableLayout.LayoutParams.MATCH_PARENT,
+                TableLayout.LayoutParams.WRAP_CONTENT
+        );
+        params.setMargins(0, 24, 0, 0);
+        tr1.setLayoutParams(params);
         ImageView imv1 = new ImageView(this);
-        Bitmap bm = BitmapFactory.decodeResource(getResources(), R.drawable.person_avatar);
-        imv1.setImageBitmap(bm);
+        //Bitmap bm = BitmapFactory.decodeResource(getResources(), R.drawable.person_avatar);
+        //imv1.setImageBitmap(bm);
         imv1.setId(2*i);
         imv1.setOnClickListener(this);
         ImageView imv2 = new ImageView(this);
-        imv2.setImageBitmap(bm);
+        //imv2.setImageBitmap(bm);
         imv2.setId(2*i+1);
         imv2.setOnClickListener(this);
+        setAvatar(imv1, imv2);
+        if(!mData2.get(imv1.getId()).availability) setBlackAndWhite(imv1);
+        if(!mData2.get(imv2.getId()).availability) setBlackAndWhite(imv2);
         tr1.addView(imv1);
         tr1.addView(imv2);
         tblayout.addView(tr1);
@@ -176,13 +193,19 @@ public class AfterSearch extends AppCompatActivity implements View.OnClickListen
         TableLayout tblayout = findViewById(R.id.table_layout);
 
         TableRow tr1 = new TableRow(this);
-        tr1.setLayoutParams(new TableRow.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT));
+        TableLayout.LayoutParams params = new TableLayout.LayoutParams(
+                TableLayout.LayoutParams.MATCH_PARENT,
+                TableLayout.LayoutParams.WRAP_CONTENT
+        );
+        params.setMargins(0, 24, 0, 0);
+        tr1.setLayoutParams(params);
         ImageView imv1 = new ImageView(this);
-        Bitmap bm = BitmapFactory.decodeResource(getResources(), R.drawable.person_avatar);
-        imv1.setImageBitmap(bm);
+        //Bitmap bm = BitmapFactory.decodeResource(getResources(), R.drawable.person_avatar);
+        //imv1.setImageBitmap(bm);
         imv1.setId(2*i);
         imv1.setOnClickListener(this);
-
+        setAvatar(imv1);
+        if(!mData2.get(imv1.getId()).availability) setBlackAndWhite(imv1);
         tr1.addView(imv1);
         tr1.addView(new ImageView(this));
         tblayout.addView(tr1);
@@ -211,6 +234,23 @@ public class AfterSearch extends AppCompatActivity implements View.OnClickListen
         tblayout.addView(tr3);
 
     }
+
+    private void setBlackAndWhite(ImageView imv){
+        ColorMatrix matrix = new ColorMatrix();
+        matrix.setSaturation(0);
+
+        ColorMatrixColorFilter filter = new ColorMatrixColorFilter(matrix);
+        imv.setColorFilter(filter);
+    }
+
+    public static void setMargins (View v, int l, int t, int r, int b) {
+        if (v.getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
+            ViewGroup.MarginLayoutParams p = (ViewGroup.MarginLayoutParams) v.getLayoutParams();
+            p.setMargins(l, t, r, b);
+            v.requestLayout();
+        }
+    }
+
     private void searchBy(String keyword) {
         ArrayList<People> mData = new ArrayList<People>();
         Query query = myRef.orderByChild("username").equalTo(keyword);
@@ -286,5 +326,75 @@ public class AfterSearch extends AppCompatActivity implements View.OnClickListen
             startActivity(intent);
         }
         else{}
+    }
+
+    private void setAvatar(ImageView imv1, ImageView imv2) {
+        final long ONE_MEGABYTE = 1024 * 1024;
+//        ImageView ivHead1 = (ImageView) findViewById(i1);
+//        ImageView ivHead2 = (ImageView) findViewById(i2);
+        Bitmap bm = BitmapFactory.decodeResource(getResources(), R.drawable.person_avatar);
+
+        headRef.child(mData2.get(imv1.getId()).email).getBytes(ONE_MEGABYTE).
+                addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                    @Override
+                    public void onSuccess(byte[] bytes) {
+                        // Data for "images/island.jpg" is returns, use this as needed
+                        Bitmap head1;
+                        head1 = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                        imv1.setImageBitmap(head1);
+                        //Toast.makeText(AfterSearch.this, "Download Success", Toast.LENGTH_SHORT).show();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle any errors
+                imv1.setImageBitmap(bm);
+            }
+        });
+
+        headRef.child(mData2.get(imv2.getId()).email).getBytes(ONE_MEGABYTE).
+                addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                    @Override
+                    public void onSuccess(byte[] bytes) {
+                        // Data for "images/island.jpg" is returns, use this as needed
+                        Bitmap head2;
+                        head2 = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                        imv2.setImageBitmap(head2);
+                        //Toast.makeText(AfterSearch.this, "Download Success", Toast.LENGTH_SHORT).show();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle any errors
+                imv2.setImageBitmap(bm);
+            }
+        });
+
+    }
+
+    private void setAvatar(ImageView imv) {
+        final long ONE_MEGABYTE = 2048 * 2048;
+//        ImageView ivHead1 = (ImageView) findViewById(i1);
+//        ImageView ivHead2 = (ImageView) findViewById(i2);
+        Bitmap bm = BitmapFactory.decodeResource(getResources(), R.drawable.person_avatar);
+
+        headRef.child(mData2.get(imv.getId()).email).getBytes(ONE_MEGABYTE).
+                addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                    @Override
+                    public void onSuccess(byte[] bytes) {
+                        // Data for "images/island.jpg" is returns, use this as needed
+                        Bitmap head;
+                        head = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                        imv.setImageBitmap(head);
+                        //Toast.makeText(AfterSearch.this, "Download Success", Toast.LENGTH_SHORT).show();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle any errors
+                imv.setImageBitmap(bm);
+            }
+        });
+
     }
 }

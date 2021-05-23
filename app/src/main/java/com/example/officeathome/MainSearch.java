@@ -1,24 +1,31 @@
 package com.example.officeathome;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+
 import android.widget.SearchView;
-import android.widget.TableLayout;
-import android.widget.TableRow;
-import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.preference.PreferenceFragmentCompat;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 import androidx.preference.PreferenceManager;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -26,7 +33,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class MainSearch extends AppCompatActivity{
@@ -38,10 +50,17 @@ public class MainSearch extends AppCompatActivity{
      *
      * @param savedInstanceState Saved instance state bundle.
      */
-    String email;
+    public String email;
     private FirebaseDatabase database = FirebaseDatabase.
             getInstance("https://officeathome-77d7b-default-rtdb.firebaseio.com/");
     private DatabaseReference myRef = database.getReference("user");
+
+    private Bitmap selfHead;
+    private String selfHeadPath;
+    private FirebaseStorage storage = FirebaseStorage.getInstance();
+    private StorageReference headRef = storage.getReference("heads");
+    private FloatingActionButton meButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +68,10 @@ public class MainSearch extends AppCompatActivity{
 
         Intent intent=this.getIntent();
         email = intent.getStringExtra("myID");
+        selfHeadPath = intent.getStringExtra("myHead");
+
+        meButton = findViewById(R.id.fab);
+        if(selfHeadPath.equals(""))meButton.setVisibility(View.GONE);
 
         androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -121,6 +144,44 @@ public class MainSearch extends AppCompatActivity{
                 (SettingActivity.KEY_PREF_EXAMPLE_SWITCH, false);
         Toast.makeText(this, switchPref.toString(),
                 Toast.LENGTH_SHORT).show();
+
+        initSelfHead();
+
+    }
+
+    private void initSelfHead() {
+        final long ONE_MEGABYTE = 1024 * 1024;
+        headRef.child(email).getBytes(ONE_MEGABYTE).
+                addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                    @Override
+                    public void onSuccess(byte[] bytes) {
+                        // Data for "images/island.jpg" is returns, use this as needed
+                        selfHead = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                        //Write file
+                        selfHeadPath = "myHead.jpeg";
+                        FileOutputStream stream = null;
+                        try {
+                            stream = openFileOutput(selfHeadPath, Context.MODE_PRIVATE);
+                            selfHead.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+
+                            stream.close();
+                            selfHead.recycle();
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        meButton.setVisibility(View.VISIBLE);
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle any errors
+                selfHead = null;
+                selfHeadPath = null;
+                Toast.makeText(MainSearch.this,"Download Failed",Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
@@ -156,10 +217,13 @@ public class MainSearch extends AppCompatActivity{
         return super.onOptionsItemSelected(item);
     }
 
-    public void luanchMeProfile(View view) {
+    public void launchMeProfile(View view) {
         Intent intent = new Intent(MainSearch.this, ProfileActivity.class);
         intent.putExtra("myID", email);
+        //intent.putExtra("myHead", selfHead);
+        intent.putExtra("myHead", selfHeadPath);
         startActivity(intent);
+        finish();
     }
 
     public ArrayList<People> searchBy(String keyword) {
@@ -185,44 +249,10 @@ public class MainSearch extends AppCompatActivity{
     public void goToAfterSearchPage(String query){
         Intent intent = new Intent(this, AfterSearch.class);
         intent.putExtra("q", query);
-        intent.putExtra("id", email);
+        intent.putExtra("myID", email);
         startActivity(intent);
         finish();
         overridePendingTransition(R.anim.down_in, R.anim.down_out);
-
-//        FrameLayout frameLayout = findViewById(R.id.frame_layout);
-//        frameLayout.bringChildToFront(findViewById(R.id.table_layout));
-//        TableLayout tl = findViewById(R.id.table_layout);
-//        //LinearLayout linearLayout = findViewById(R.id.linear_layout);
-//        //linearLayout.getBackground().setAlpha(100);
-//
-//        for (int i = 0; i <2; i++) {
-//            TableRow tr = new TableRow(this);
-//            tr.setId(i + 1);
-//            TextView tv=new TextView(this);
-//            tv.setText("test");
-//            tr.addView(tv);
-//            TextView tv2=new TextView(this);
-//            tv2.setText("test");
-//            tr.addView(tv2);
-//            tl.addView(tr);
-////            checkBox = new CheckBox(this);
-////            tv = new TextView(this);
-////            addBtn = new ImageButton(this);
-////            addBtn.setImageResource(R.drawable.add);
-////            minusBtn = new ImageButton(this);
-////            minusBtn.setImageResource(R.drawable.minus);
-////            qty = new TextView(this);
-////            checkBox.setText("hello");
-////            qty.setText("10");
-////            row.addView(checkBox);
-////            row.addView(minusBtn);
-////            row.addView(qty);
-////            row.addView(addBtn);
-////            ll.addView(row,i);
-////
-        //}
-
     }
 }
 

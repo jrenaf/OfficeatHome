@@ -20,11 +20,17 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
     private int note_id=0;
     private String get_title;
     private String get_context;
+    private String headPath;
+    String email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.detail);
+
+        Bundle bundle = getIntent().getExtras();
+        email = bundle.getString("myID");
+        headPath = bundle.getString("myHead");
 
         title=(EditText) findViewById(R.id.title_detail);
         context=(EditText) findViewById(R.id.context_detail);
@@ -47,7 +53,13 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     public void onClick(View view) {
         if (view == findViewById(R.id.back_detail)) {
-            Intent intent = new Intent(DetailActivity.this, MainActivity.class);
+            Intent intent = new Intent(DetailActivity.this, ProfileActivity.class);
+            Bundle bd = new Bundle();
+            bd.putString("myID",email);
+            intent.putExtras(bd);
+            Bundle bd2 = new Bundle();
+            bd2.putString("myHead",headPath);
+            intent.putExtras(bd2);
             startActivity(intent);
         }else if(view == findViewById(R.id.save_detail)){
             get_title=title.getText().toString().trim();
@@ -64,7 +76,13 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
 
                 Toast.makeText(this,"Modify successfully!",Toast.LENGTH_SHORT).show();
                 Intent intent=new Intent();
-                intent.setClass(DetailActivity.this,MainActivity.class);
+                intent.setClass(DetailActivity.this,ProfileActivity.class);
+                Bundle bd = new Bundle();
+                bd.putString("myID",email);
+                intent.putExtras(bd);
+                Bundle bd2 = new Bundle();
+                bd2.putString("myHead",headPath);
+                intent.putExtras(bd2);
                 startActivity(intent);
 
             }
