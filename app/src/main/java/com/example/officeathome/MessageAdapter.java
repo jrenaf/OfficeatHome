@@ -16,17 +16,20 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHolder> {
-    private final LinkedList<String> mMesList;
-    private final LinkedList<String> mAuthorList;
-    private final LinkedList<String> mDateList;
+//    private final LinkedList<String> mMesList;
+//    private final LinkedList<String> mAuthorList;
+//    private final LinkedList<String> mDateList;
+    private final LinkedList<Message> mMesList;
     private LayoutInflater mInflater;
 
-    public MessageAdapter(Context context, LinkedList<String> messageList,
-                          LinkedList<String> authorList, LinkedList<String> datelist){
+    public MessageAdapter(Context context,
+//                          LinkedList<String> messageList,
+//                          LinkedList<String> authorList, LinkedList<String> datelist
+    LinkedList<Message> messageList){
         mInflater = LayoutInflater.from(context);
         this.mMesList = messageList;
-        this.mAuthorList = authorList;
-        this.mDateList = datelist;
+//        this.mAuthorList = authorList;
+//        this.mDateList = datelist;
     }
 
     @NonNull
@@ -39,14 +42,14 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        String mCurrent = mMesList.get(position);
-        holder.messageItemView.setText(mCurrent);
+        Message mCurrent = mMesList.get(position);
+        holder.messageItemView.setText(mCurrent.text);
 
-        String mAuthor = mAuthorList.get(position);
-        holder.messageAuthorView.setText(mAuthor);
+        //String mAuthor = mAuthorList.get(position);
+        holder.messageAuthorView.setText(mCurrent.sender_name);
 
-        String mDate = mDateList.get(position);
-        holder.messageDateView.setText(mDate);
+        //String mDate = mDateList.get(position);
+        holder.messageDateView.setText(mCurrent.date);
     }
 
     @Override

@@ -44,9 +44,10 @@ public class ThirdActivity extends AppCompatActivity {
 
     private String TAG="SecondActivity";
 
-    private final LinkedList<String> mMesList = new LinkedList<>();
-    private final LinkedList<String> mAuthList = new LinkedList<>();
-    private final LinkedList<String> mDateList = new LinkedList<>();
+//    private final LinkedList<String> mMesList = new LinkedList<>();
+//    private final LinkedList<String> mAuthList = new LinkedList<>();
+//    private final LinkedList<String> mDateList = new LinkedList<>();
+    private final LinkedList<Message> mMessageList = new LinkedList<>();
 
     private FirebaseDatabase database = FirebaseDatabase.
             getInstance("https://officeathome-77d7b-default-rtdb.firebaseio.com/");
@@ -70,7 +71,8 @@ public class ThirdActivity extends AppCompatActivity {
         // Get a handle to the RecyclerView.
         mRecyclerView = (RecyclerView)findViewById(R.id.recycler_gchat);
         // Create an adapter and supply the data to be displayed.
-        mAdapter = new MessageAdapter(this, mMesList, mAuthList, mDateList);
+//        mAdapter = new MessageAdapter(this, mMesList, mAuthList, mDateList);
+        mAdapter = new MessageAdapter(this, mMessageList);
         // Connect the adapter with the RecyclerView.
         mRecyclerView.setAdapter(mAdapter);
         // Give the RecyclerView a default layout manager.
@@ -106,11 +108,12 @@ public class ThirdActivity extends AppCompatActivity {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 //for (DataSnapshot snapshot1 : snapshot.getChildren()){
-                int ListSize = mMesList.size();
+                int ListSize = mMessageList.size();
                 Message ld = snapshot.getValue(Message.class);
-                mMesList.addLast(ld.text);
-                mAuthList.addLast(ld.sender_name);
-                mDateList.addLast(ld.date);
+//                mMesList.addLast(ld.text);
+//                mAuthList.addLast(ld.sender_name);
+//                mDateList.addLast(ld.date);
+                mMessageList.addLast(ld);
                 mRecyclerView.getAdapter().notifyItemInserted(ListSize);
                 mRecyclerView.smoothScrollToPosition(ListSize);
                 //}

@@ -29,6 +29,8 @@ import com.google.firebase.database.ValueEventListener;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -45,9 +47,10 @@ public class SecondActivity extends AppCompatActivity {
 
     private String TAG="SecondActivity";
 
-    private final LinkedList<String> mMesList = new LinkedList<>();
-    private final LinkedList<String> mAuthList = new LinkedList<>();
-    private final LinkedList<String> mDateList = new LinkedList<>();
+//    private final LinkedList<String> mMesList = new LinkedList<>();
+//    private final LinkedList<String> mAuthList = new LinkedList<>();
+//    private final LinkedList<String> mDateList = new LinkedList<>();
+    private final LinkedList<Message> mMessageList = new LinkedList<>();
 
     private FirebaseDatabase database = FirebaseDatabase.
             getInstance("https://officeathome-77d7b-default-rtdb.firebaseio.com/");
@@ -72,7 +75,8 @@ public class SecondActivity extends AppCompatActivity {
         // Get a handle to the RecyclerView.
         mRecyclerView = (RecyclerView)findViewById(R.id.recycler_gchat);
         // Create an adapter and supply the data to be displayed.
-        mAdapter = new MessageAdapter(this, mMesList, mAuthList, mDateList);
+//        mAdapter = new MessageAdapter(this, mMesList, mAuthList, mDateList);
+        mAdapter = new MessageAdapter(this, mMessageList);
         // Connect the adapter with the RecyclerView.
         mRecyclerView.setAdapter(mAdapter);
         // Give the RecyclerView a default layout manager.
@@ -138,16 +142,24 @@ public class SecondActivity extends AppCompatActivity {
     }
 
     private void initBoard(){
-        messageRef.child(receiver_Uid).orderByChild("sender_name").equalTo(senderEmail).addChildEventListener(new ChildEventListener() {
+        messageRef.child(sender_uid).orderByChild("sender_name").equalTo(targetEmail).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 //for (DataSnapshot snapshot1 : snapshot.getChildren()){
-                int ListSize = mMesList.size();
+                int ListSize = mMessageList.size();
                 Message ld = snapshot.getValue(Message.class);
-                mMesList.addLast(ld.text);
-                mAuthList.addLast(ld.sender_name);
-                mDateList.addLast(ld.date);
-                mRecyclerView.getAdapter().notifyItemInserted(ListSize);
+//                mMesList.addLast(ld.text);
+//                mAuthList.addLast(ld.sender_name);
+//                mDateList.addLast(ld.date);
+                mMessageList.addLast(ld);
+                Collections.sort(mMessageList, new Comparator<Message>() {
+                    @Override
+                    public int compare(Message o1, Message o2) {
+                        return o1.date.compareTo(o2.date);
+                    }
+                });
+//                mRecyclerView.getAdapter().notifyItemInserted(ListSize);
+                mRecyclerView.getAdapter().notifyDataSetChanged();
                 mRecyclerView.smoothScrollToPosition(ListSize);
                 //}
 
@@ -174,16 +186,24 @@ public class SecondActivity extends AppCompatActivity {
             }
         });
 
-        messageRef.child(sender_uid).orderByChild("sender_name").equalTo(targetEmail).addChildEventListener(new ChildEventListener() {
+        messageRef.child(receiver_Uid).orderByChild("sender_name").equalTo(senderEmail).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 //for (DataSnapshot snapshot1 : snapshot.getChildren()){
-                int ListSize = mMesList.size();
+                int ListSize = mMessageList.size();
                 Message ld = snapshot.getValue(Message.class);
-                mMesList.addLast(ld.text);
-                mAuthList.addLast(ld.sender_name);
-                mDateList.addLast(ld.date);
-                mRecyclerView.getAdapter().notifyItemInserted(ListSize);
+//                mMesList.addLast(ld.text);
+//                mAuthList.addLast(ld.sender_name);
+//                mDateList.addLast(ld.date);
+                mMessageList.addLast(ld);
+                Collections.sort(mMessageList, new Comparator<Message>() {
+                    @Override
+                    public int compare(Message o1, Message o2) {
+                        return o1.date.compareTo(o2.date);
+                    }
+                });
+//                mRecyclerView.getAdapter().notifyItemInserted(ListSize);
+                mRecyclerView.getAdapter().notifyDataSetChanged();
                 mRecyclerView.smoothScrollToPosition(ListSize);
                 //}
 
